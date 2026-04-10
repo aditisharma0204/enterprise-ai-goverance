@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useMissionCluster, type ClusterPhase } from './MissionClusterContext'
 
 type NodeVisual = 'default' | 'warn' | 'affected' | 'disabled' | 'processing' | 'healthy'
@@ -95,8 +96,25 @@ function deriveVisuals(phase: ClusterPhase) {
   return { n, e }
 }
 
+function useEdgeTokens() {
+  return useMemo(() => {
+    const css = getComputedStyle(document.documentElement)
+    const tok = (name: string) => css.getPropertyValue(name).trim()
+    return {
+      alert: tok('--edge-alert') || '#fecaca',
+      alertWarn: tok('--edge-alert-warn') || '#f59e0b',
+      muted: tok('--edge-muted') || '#3a3a52',
+      dim: tok('--edge-dark') || '#1a1a2e',
+      processing: tok('--edge-processing') || '#38bdf8',
+      healthy: tok('--gv-cluster-dot-healthy') || '#34d399',
+      default: tok('--gv-topology-sm-text') || '#4b5563',
+    }
+  }, [])
+}
+
 export function BlastRadiusGraph() {
   const { clusterPhase } = useMissionCluster()
+  const tokens = useEdgeTokens()
 
   const { n, e } = deriveVisuals(clusterPhase)
 
@@ -124,33 +142,33 @@ export function BlastRadiusGraph() {
             </defs>
 
             {/* Users → API Gateway */}
-            <Edge d="M 100 140 L 260 200" visual="muted" />
-            <Edge d="M 100 280 L 260 255" visual={e.storeToGw} />
-            <Edge d="M 100 420 L 260 310" visual="muted" />
+            <Edge d="M 100 140 L 260 200" visual="muted" tokens={tokens} />
+            <Edge d="M 100 280 L 260 255" visual={e.storeToGw} tokens={tokens} />
+            <Edge d="M 100 420 L 260 310" visual="muted" tokens={tokens} />
 
             {/* API Gateway → Order Processing Agent */}
-            <Edge d="M 320 255 L 460 255" visual={e.gwToOrder} />
+            <Edge d="M 320 255 L 460 255" visual={e.gwToOrder} tokens={tokens} />
 
             {/* Order Processing Agent → right-side agents */}
-            <Edge d="M 520 230 L 660 160" visual={e.orderToLlm} dashed />
-            <Edge d="M 520 255 L 660 280" visual={e.orderToResponse} />
-            <Edge d="M 520 280 L 660 400" visual={e.orderToEval} />
+            <Edge d="M 520 230 L 660 160" visual={e.orderToLlm} dashed tokens={tokens} />
+            <Edge d="M 520 255 L 660 280" visual={e.orderToResponse} tokens={tokens} />
+            <Edge d="M 520 280 L 660 400" visual={e.orderToEval} tokens={tokens} />
 
             {/* Response Orchestrator → downstream */}
-            <Edge d="M 720 280 L 850 200" visual="muted" />
-            <Edge d="M 720 280 L 850 355" visual="muted" />
+            <Edge d="M 720 280 L 850 200" visual="muted" tokens={tokens} />
+            <Edge d="M 720 280 L 850 355" visual="muted" tokens={tokens} />
 
             {/* LLM Routing → Knowledge Base */}
-            <Edge d="M 720 160 L 850 80" visual="muted" />
+            <Edge d="M 720 160 L 850 80" visual="muted" tokens={tokens} />
 
             {/* Evaluator → Zendesk */}
-            <Edge d="M 720 400 L 850 460" visual={e.evalToZendesk} />
+            <Edge d="M 720 400 L 850 460" visual={e.evalToZendesk} tokens={tokens} />
 
             {/* API Gateway → Compliance Agent */}
-            <Edge d="M 290 290 L 290 430" visual="muted" />
+            <Edge d="M 290 290 L 290 430" visual="muted" tokens={tokens} />
 
             {/* Compliance → Evaluator */}
-            <Edge d="M 350 450 L 600 420" visual={e.compToEval} />
+            <Edge d="M 350 450 L 600 420" visual={e.compToEval} tokens={tokens} />
           </svg>
 
           {/* Left column: user sources */}
@@ -190,38 +208,39 @@ export function BlastRadiusGraph() {
   )
 }
 
+type EdgeTokens = ReturnType<typeof useEdgeTokens>
+
 function Edge({
   d,
   visual = 'default',
   dashed,
+  tokens: t,
 }: {
   d: string
   visual?: EdgeVisual
   dashed?: boolean
+  tokens: EdgeTokens
 }) {
   let color: string
   let width: number
   let animated = false
   let dashArray = dashed ? '5 4' : undefined
 
-  const css = getComputedStyle(document.documentElement)
-  const tok = (name: string) => css.getPropertyValue(name).trim()
-
   switch (visual) {
     case 'alert':
-      color = tok('--edge-alert') || '#fecaca'; width = 2.5; animated = true; break
+      color = t.alert; width = 2.5; animated = true; break
     case 'alert-warn':
-      color = tok('--edge-alert-warn') || '#f59e0b'; width = 2.5; animated = true; break
+      color = t.alertWarn; width = 2.5; animated = true; break
     case 'muted':
-      color = tok('--edge-muted') || '#374151'; width = 1.5; break
+      color = t.muted; width = 1.5; break
     case 'dim':
-      color = tok('--edge-dark') || '#1f2937'; width = 1; dashArray = '4 6'; break
+      color = t.dim; width = 1; dashArray = '4 6'; break
     case 'processing':
-      color = tok('--edge-processing') || '#38bdf8'; width = 2; animated = true; break
+      color = t.processing; width = 2; animated = true; break
     case 'healthy':
-      color = tok('--gv-cluster-dot-healthy') || '#34d399'; width = 2; break
+      color = t.healthy; width = 2; break
     default:
-      color = tok('--gv-topology-sm-text') || '#4b5563'; width = 2; break
+      color = t.default; width = 2; break
   }
 
   return (

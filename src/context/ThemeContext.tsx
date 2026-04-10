@@ -15,7 +15,7 @@ type ThemeContextValue = {
   toggleTheme: () => void
 }
 
-const STORAGE_KEY = 'trustops_theme'
+const STORAGE_KEY = 'aimc_theme'
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
 function getInitialTheme(): Theme {

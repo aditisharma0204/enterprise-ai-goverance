@@ -1,13 +1,12 @@
 import '../../globalView.css'
 import '../../missionControl.css'
-import { TrustOpsHeader } from '../shell/TrustOpsHeader'
+import { AppHeader } from '../shell/AppHeader'
 import { AppSidebar } from './AppSidebar'
 import { BlastRadiusGraph } from './BlastRadiusGraph'
 import { ContentHeader } from './ContentHeader'
 import { AgentForcePanel } from './AgentForcePanel'
 import { EdgeTrafficView } from './EdgeTrafficView'
 import { GraphCanvas } from './GraphCanvas'
-// import { InvestigationModeTabs } from './InvestigationModeTabs'
 import {
   MissionClusterProvider,
   useMissionCluster,
@@ -28,7 +27,7 @@ function MissionControlBody() {
   return (
     <div className="mission-root">
       <div className="app-window">
-        <TrustOpsHeader />
+        <AppHeader />
 
         <div className="app-body">
           <AppSidebar />

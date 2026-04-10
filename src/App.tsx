@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { GlobalViewPage } from './components/global-view/GlobalViewPage'
 import { MissionControlPage } from './components/mission-control/MissionControlPage'
 import { ROUTES } from './constants/routes'
@@ -7,14 +8,16 @@ import { ThemeProvider } from './context/ThemeContext'
 
 function App() {
   return (
-    <ThemeProvider>
-      <NaCluster7Provider>
-        <Routes>
-          <Route path={ROUTES.home} element={<GlobalViewPage />} />
-          <Route path={ROUTES.agentCluster7} element={<MissionControlPage />} />
-        </Routes>
-      </NaCluster7Provider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <NaCluster7Provider>
+          <Routes>
+            <Route path={ROUTES.home} element={<GlobalViewPage />} />
+            <Route path={ROUTES.agentCluster7} element={<MissionControlPage />} />
+          </Routes>
+        </NaCluster7Provider>
+      </ThemeProvider>
+    </ErrorBoundary>
   )
 }
 

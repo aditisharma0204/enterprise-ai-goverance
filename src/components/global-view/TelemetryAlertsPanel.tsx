@@ -10,7 +10,7 @@ type Props = {
 const SEV_DOT_COLOR: Record<string, string> = {
   critical: 'var(--status-danger-text)',
   warning: 'var(--status-warning-text)',
-  info: 'var(--accent-teal)',
+  info: 'var(--accent-primary)',
 }
 
 export function TelemetryAlertsPanel({ alerts, activeCount }: Props) {

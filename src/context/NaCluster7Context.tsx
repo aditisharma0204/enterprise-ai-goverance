@@ -8,8 +8,8 @@ import {
   type ReactNode,
 } from 'react'
 
-const STORAGE_KEY = 'trustops_na_cluster7_resolved'
-const RESOLVED_EVENT = 'trustops-na-cluster7-resolved'
+const STORAGE_KEY = 'aimc_na_cluster7_resolved'
+const RESOLVED_EVENT = 'aimc-na-cluster7-resolved'
 
 type NaCluster7ContextValue = {
   /** NA Order Processing Agent incident cleared after production deploy */

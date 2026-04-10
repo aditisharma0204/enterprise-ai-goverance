@@ -23,7 +23,7 @@ export function ContentHeader() {
           <span className="global-crumb-sep">/</span>
           <span className="global-crumb-current">Order Processing Agent</span>
         </div>
-        <h1 className="global-page-title">Cluster operations & dependency review</h1>
+        <h1 className="global-page-title">Order Processing Agent — Incident Response</h1>
       </div>
     </div>
   )

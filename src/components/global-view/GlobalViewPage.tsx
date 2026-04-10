@@ -11,7 +11,7 @@ import { useNaCluster7 } from '../../context/NaCluster7Context'
 import { useGlobalViewAlerts } from '../../hooks/useGlobalViewAlerts'
 import '../../missionControl.css'
 import '../../globalView.css'
-import { TrustOpsHeader } from '../shell/TrustOpsHeader'
+import { AppHeader } from '../shell/AppHeader'
 import { GlobalAlertSummaryStrip } from './GlobalAlertSummaryStrip'
 import { GlobalSuccessStrip } from './GlobalSuccessStrip'
 import { TelemetryAlertsPanel } from './TelemetryAlertsPanel'
@@ -94,7 +94,7 @@ export function GlobalViewPage() {
   return (
     <div className="mission-root">
       <div className="app-window global-app-window">
-        <TrustOpsHeader />
+        <AppHeader />
 
         {naCluster7Resolved ? (
           <GlobalSuccessStrip onRestartDemo={restartDemo} />
@@ -149,7 +149,7 @@ export function GlobalViewPage() {
                 <h1 className="global-page-title">
                   {mapScope === 'north-america'
                     ? 'AI agents across North America'
-                    : 'US hubs & store-field footprint'}
+                    : 'United States — Agent hubs & coverage'}
                 </h1>
               </div>
               {/* Back button hidden for demo */}

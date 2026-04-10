@@ -1,4 +1,4 @@
-# TrustOps — Enterprise AI Governance
+# AI Mission Control — Enterprise AI Governance
 
 A command-center UI for monitoring, governing, and remediating AI agent clusters in production. Built for IT director-level operators managing enterprise AI deployments.
 
@@ -6,13 +6,13 @@ A command-center UI for monitoring, governing, and remediating AI agent clusters
 
 ## What it does
 
-TrustOps provides real-time observability across a fleet of AI agents deployed in production. The demo scenario walks through an incident where an Order Processing Agent breaches its domain policy, and an operator uses the **Agentforce** conversational panel to triage, remediate, and redeploy.
+AI Mission Control provides real-time observability across a fleet of AI agents deployed in production. The demo scenario walks through an incident where an Order Processing Agent breaches its domain policy, and an operator uses the **Agentforce** conversational panel to triage, remediate, and redeploy.
 
 ### Key screens
 
-- **Global View** — North America map with 22 agent cluster markers. Zoom into the United States to see hub topology, routers, and individual agents. Click **Agent Cluster 7** to open the cluster modal.
+- **Global View** — North America map with 22 agent cluster markers. Zoom into the United States to see hub topology, routers, and individual agents. Click **Agent USW-7** to open the cluster modal.
 - **Agent Cluster Modal** — Lists all agents in a cluster with health status. Critical agents link directly into Mission Control.
-- **Mission Control** — Service dependency graph showing the blast radius of a failing agent, with live session counts and token rates. The graph visually reacts to each step of the Agentforce conversation.
+- **Mission Control** — Service dependency graph showing the blast radius of a failing agent. The graph visually reacts to each step of the Agentforce conversation.
 - **Agentforce Panel** — Conversational interface for human-in-the-loop intervention: stop traffic, retrain, redeploy. Typing animations, thinking indicators, and policy breach tooltips.
 
 ### Interaction flow
@@ -30,7 +30,7 @@ TrustOps provides real-time observability across a fleet of AI agents deployed i
 | Framework | React 19 + TypeScript 6 |
 | Build | Vite 8 |
 | Routing | React Router 7 |
-| Styling | Vanilla CSS with custom properties (dark theme) |
+| Styling | Vanilla CSS with custom properties (dark/light theme) |
 | Hosting | Heroku (Node.js buildpack + `serve`) |
 
 ## Getting started
@@ -61,12 +61,12 @@ src/
     icons/             # SVG icon components
     shell/             # App header, navigation chrome
   constants/           # Route definitions
-  context/             # Global state (NaCluster7Context)
+  context/             # Global state (theme, cluster resolution)
   data/                # Cluster markers, alert seed data
   hooks/               # Shared hooks
   globalView.css       # Global view styles
-  missionControl.css   # Mission control styles
-  dark-theme.css       # Design tokens
+  missionControl.css   # Mission control + design tokens
+  dark-theme.css       # Dark theme token overrides
 ```
 
 ## Deployment

@@ -86,7 +86,7 @@
   height: 100%;
   width: 100%;
   border-radius: 9999px;
-  background-color: #fbbf24;
+  background-color: var(--status-warning);
   opacity: 0.75;
   animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
@@ -105,7 +105,7 @@
   border-radius: 9999px;
   height: 14px;
   width: 14px;
-  background-color: #f59e0b;
+  background-color: var(--status-warning);
   border: 2px solid var(--strip-alert-dot-ring);
 }
 
@@ -246,7 +246,7 @@ button.global-alert-cta {
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background-color: var(--accent-teal);
+  background-color: var(--accent-primary);
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
@@ -280,7 +280,7 @@ button.global-alert-cta {
   align-items: center;
   gap: 6px;
   background-color: var(--strip-success-cta-surface);
-  color: var(--accent-teal);
+  color: var(--accent-primary);
   border: 1px solid var(--strip-success-border);
   padding: 6px 16px;
   border-radius: 6px;
@@ -298,7 +298,7 @@ button.global-alert-cta {
 
 .global-success-cta:hover {
   background-color: var(--strip-success-cta-hover);
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
 }
 
 .global-success-cta svg {
@@ -335,7 +335,7 @@ button.global-alert-cta {
 
 .global-demo-restart-btn:hover {
   background-color: var(--strip-success-cta-surface);
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
 }
 
 .global-demo-restart-btn svg {
@@ -424,14 +424,14 @@ button.global-alert-cta {
 }
 
 .telemetry-tab:hover {
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
   color: var(--text-primary);
 }
 
 .telemetry-tab--active {
-  background: var(--accent-teal-bg);
-  border-color: var(--accent-teal);
-  color: var(--accent-teal);
+  background: var(--accent-primary-bg);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .telemetry-tab-badge {
@@ -765,7 +765,7 @@ button.global-alert-cta {
 
 /* Clickable crumbs = accent; current page = primary (no teal) */
 .global-crumb-link {
-  color: var(--accent-teal);
+  color: var(--accent-primary);
   font-weight: 600;
   cursor: pointer;
   border: none;
@@ -779,7 +779,7 @@ button.global-alert-cta {
 }
 
 .global-crumb-link:hover {
-  color: var(--accent-teal-hover);
+  color: var(--accent-primary-hover);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -959,7 +959,7 @@ button.global-alert-cta {
 }
 
 .continent-country-hit--us:focus-visible {
-  outline: 2px solid var(--accent-teal);
+  outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
 
@@ -972,7 +972,7 @@ button.global-alert-cta {
 }
 
 .continent-cluster--interactive:focus-visible .continent-cluster-dot {
-  outline: 2px solid var(--accent-teal);
+  outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
 
@@ -1144,8 +1144,8 @@ button.global-alert-cta {
 }
 
 .topology-node--sm {
-  width: 130px;
-  height: 38px;
+  width: 138px;
+  height: 40px;
   background-color: var(--surface);
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -1154,8 +1154,8 @@ button.global-alert-cta {
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
-  font-size: var(--type-ui-meta-fs);
-  font-weight: 500;
+  font-size: var(--type-caption-fs);
+  font-weight: 800;
   color: var(--gv-topology-sm-text);
   transition:
     border-color 0.15s,
@@ -1163,7 +1163,7 @@ button.global-alert-cta {
 }
 
 .topology-node--sm:hover {
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
 }
 
 .topology-node--sm .topology-dot {
@@ -1191,7 +1191,7 @@ button.global-alert-cta {
 }
 
 .topology-node--router:hover {
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -1239,7 +1239,7 @@ button.global-alert-cta {
 }
 
 .topology-node--gateway .topology-gw-sub {
-  font-size: var(--type-ui-meta-fs);
+  font-size: var(--type-caption-fs);
   color: var(--gv-gateway-sub);
   margin-top: 2px;
 }
@@ -1299,7 +1299,7 @@ button.global-alert-cta {
 }
 
 .topology-node--cluster-healthy:hover {
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
   box-shadow: 0 4px 14px rgba(68, 136, 255, 0.12);
 }
 
@@ -1516,7 +1516,7 @@ button.global-alert-cta {
 }
 
 .ta-action:hover {
-  color: var(--accent-teal);
+  color: var(--accent-primary);
 }
 
 .ta-resolved {

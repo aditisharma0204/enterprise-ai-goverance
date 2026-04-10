@@ -6,13 +6,13 @@ import { useTheme } from '../../context/ThemeContext'
 type NavItem = {
   id: string
   label: string
-  /** `null` = not shipped in v1; shown as roadmap (disabled). */
-  to: string | null
+  to: string
   badge?: 'alert'
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', to: null },
+  { id: 'global', label: 'Global View', to: ROUTES.home },
+  { id: 'mission', label: 'Mission Control', to: ROUTES.agentCluster7 },
 ]
 
 function LogoBolt() {
@@ -54,7 +54,7 @@ function MoonIcon() {
   )
 }
 
-export function TrustOpsHeader() {
+export function AppHeader() {
   const { naCluster7Resolved, restartDemo } = useNaCluster7()
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
@@ -77,30 +77,15 @@ export function TrustOpsHeader() {
                 <span className="nav-pill-badge nav-pill-badge--amber">Alert</span>
               ) : null
 
-            if (item.to) {
-              return (
-                <NavLink
-                  key={item.id}
-                  to={item.to}
-                  className={({ isActive }) => `nav-pill${isActive ? ' active' : ''}`}
-                >
-                  {item.label}
-                  {badge}
-                </NavLink>
-              )
-            }
-
             return (
-              <button
+              <NavLink
                 key={item.id}
-                type="button"
-                className="nav-pill nav-pill--roadmap"
-                disabled
-                aria-label={`${item.label}, not available in this demo. Planned for a future release. Version 1 includes Global View and Mission Control only.`}
-                title="Planned for a future release (v1 is Global View + Mission Control)."
+                to={item.to}
+                className={({ isActive }) => `nav-pill${isActive ? ' active' : ''}`}
               >
                 {item.label}
-              </button>
+                {badge}
+              </NavLink>
             )
           })}
         </nav>

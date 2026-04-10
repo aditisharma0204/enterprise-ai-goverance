@@ -26,6 +26,6 @@ Each agent has a deeper playbook in **`design-skills-main/skills/<role>/SKILL.md
 
 ## This product
 
-**TrustOps AI** — enterprise observability / governance UI (Vite, React, TypeScript). Prefer concrete ties to existing routes (`src/constants/routes.ts`), shells, and CSS token layers (`missionControl.css`, `globalView.css`, `dark-theme.css`) when design output touches implementation.
+**AI Mission Control** — enterprise observability / governance UI (Vite, React, TypeScript). Prefer concrete ties to existing routes (`src/constants/routes.ts`), shells, and CSS token layers (`missionControl.css`, `globalView.css`, `dark-theme.css`) when design output touches implementation.
 
 **Primary reviewer persona (v1):** IT director–level operator (e.g. retail enterprise context). Copy and hierarchy should read as **operational risk and governance**, not only low-level SRE jargon. **v1 layout:** desktop-first; `.mission-root` enforces a minimum width for review sessions.

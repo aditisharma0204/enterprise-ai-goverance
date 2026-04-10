@@ -31,9 +31,9 @@
   --border-color: #2a2a3c;
   --border-light: #222234;
 
-  --accent-teal: #4488ff;
-  --accent-teal-hover: #5599ff;
-  --accent-teal-bg: rgba(68, 136, 255, 0.10);
+  --accent-primary: #4488ff;
+  --accent-primary-hover: #5599ff;
+  --accent-primary-bg: rgba(68, 136, 255, 0.10);
 
   --status-success: #34d399;
   --status-success-bg: rgba(52, 211, 153, 0.10);
@@ -97,7 +97,7 @@
   --gv-gateway-sub: #9d9db5;
   --gv-crumb-sep: #333348;
   --gv-btn-secondary-text: #c4c4d8;
-  --gv-topology-sm-text: #9d9db5;
+  --gv-topology-sm-text: #ffffff;
   --gv-topology-router-title: #e4e4ec;
   --gv-topology-router-sub: #9d9db5;
   --gv-zoom-icon: #7a7a94;

@@ -14,14 +14,13 @@ function SmAgent({
   label: string
 }) {
   return (
-    <button
-      type="button"
+    <div
       className="topology-node topology-node--sm"
       style={{ left, top }}
     >
       <span>{label}</span>
       <span className="topology-dot" />
-    </button>
+    </div>
   )
 }
 
@@ -295,8 +294,7 @@ export function TopologyCanvas({ incidentResolved = false, onOpenCluster }: Topo
         <div className="topology-gw-sub">US enterprise entry</div>
       </div>
 
-      <button
-        type="button"
+      <div
         className="topology-node topology-node--router"
         style={{ left: 'calc(350px - 70px)', top: 'calc(220px - 23px)' }}
       >
@@ -305,10 +303,9 @@ export function TopologyCanvas({ incidentResolved = false, onOpenCluster }: Topo
           <div className="topology-dot" style={{ width: 8, height: 8 }} />
         </div>
         <div className="topology-router-sub">Router Node</div>
-      </button>
+      </div>
 
-      <button
-        type="button"
+      <div
         className="topology-node topology-node--router"
         style={{ left: 'calc(850px - 70px)', top: 'calc(220px - 23px)' }}
       >
@@ -317,10 +314,9 @@ export function TopologyCanvas({ incidentResolved = false, onOpenCluster }: Topo
           <div className="topology-dot" style={{ width: 8, height: 8 }} />
         </div>
         <div className="topology-router-sub">Router Node</div>
-      </button>
+      </div>
 
-      <button
-        type="button"
+      <div
         className="topology-node topology-node--router"
         style={{ left: 'calc(600px - 70px)', top: 'calc(550px - 23px)' }}
       >
@@ -329,7 +325,7 @@ export function TopologyCanvas({ incidentResolved = false, onOpenCluster }: Topo
           <div className="topology-dot" style={{ width: 8, height: 8 }} />
         </div>
         <div className="topology-router-sub">Router Node</div>
-      </button>
+      </div>
 
       <SmAgent left="calc(200px - 60px)" top="calc(100px - 18px)" label="Agent USW-1" />
       <SmAgent left="calc(350px - 60px)" top="calc(80px - 18px)" label="Agent USW-2" />

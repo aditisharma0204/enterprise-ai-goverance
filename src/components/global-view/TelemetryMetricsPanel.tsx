@@ -86,7 +86,7 @@ export function TelemetryMetricsPanel({
             <path
               d="M0,30 C20,30 30,10 50,15 C70,20 80,5 100,10"
               fill="none"
-              stroke="var(--accent-teal)"
+              stroke="var(--accent-primary)"
               strokeWidth="2.5"
               strokeLinecap="round"
             />
@@ -97,8 +97,8 @@ export function TelemetryMetricsPanel({
             />
             <defs>
               <linearGradient id="gv-spark-grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--accent-teal)" />
-                <stop offset="100%" stopColor="var(--accent-teal)" stopOpacity="0" />
+                <stop offset="0%" stopColor="var(--accent-primary)" />
+                <stop offset="100%" stopColor="var(--accent-primary)" stopOpacity="0" />
               </linearGradient>
             </defs>
           </svg>
