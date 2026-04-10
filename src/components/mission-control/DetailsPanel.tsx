@@ -107,9 +107,13 @@ export function DetailsPanel() {
 
         <div className="remediation-block">
           <div className="remediation-block-main">
-            <span className="remediation-control-name">Human review first</span>
+            <span className="remediation-control-name">
+              Human-in-the-loop (HITL) gate
+            </span>
             <span className="remediation-control-hint">
-              Queue risky cases for a person before send.
+              Hold outputs that fail automated policy checks until an operator
+              approves or edits them—nothing ships to end users until the human
+              step completes.
             </span>
           </div>
           <label className="toggle remediation-toggle">
@@ -185,7 +189,7 @@ export function DetailsPanel() {
               </p>
               {deployRevisionId ? (
                 <p className="deploy-complete-revision">
-                  <code>{deployRevisionId}</code> · Cluster-7 · US prod
+                  <code>{deployRevisionId}</code> · Order Processing Agent · US prod
                 </p>
               ) : null}
               <ul className="deploy-complete-checklist">

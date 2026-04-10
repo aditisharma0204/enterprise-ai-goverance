@@ -14,7 +14,7 @@ export function GlobalSuccessStrip({ onRestartDemo }: Props) {
           ✓
         </div>
         <div className="global-success-text-row">
-          <span className="global-success-title">Agent Cluster-7 · Stable</span>
+          <span className="global-success-title">Order Processing Agent · Stable</span>
           <span className="global-success-desc">
             Remediation is live in US production. Topology and telemetry reflect
             normal policy alignment.

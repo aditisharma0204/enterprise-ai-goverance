@@ -1,21 +1,125 @@
-import { useMissionCluster } from './MissionClusterContext'
+import { useMissionCluster, type ClusterPhase } from './MissionClusterContext'
 
-/** CMDB-style service graph: spread across estate, affected paths highlighted until remediated. */
+type NodeVisual = 'default' | 'warn' | 'affected' | 'disabled' | 'processing' | 'healthy'
+type EdgeVisual = 'default' | 'alert' | 'alert-warn' | 'muted' | 'dim' | 'processing' | 'healthy'
+
+function deriveVisuals(phase: ClusterPhase) {
+  const n = {
+    orderAgent: 'default' as NodeVisual,
+    llmRouting: 'default' as NodeVisual,
+    evaluator: 'default' as NodeVisual,
+    storeCustomers: 'default' as NodeVisual,
+    responseOrch: 'default' as NodeVisual,
+    compliance: 'default' as NodeVisual,
+  }
+  const e = {
+    storeToGw: 'default' as EdgeVisual,
+    gwToOrder: 'default' as EdgeVisual,
+    orderToLlm: 'default' as EdgeVisual,
+    orderToResponse: 'default' as EdgeVisual,
+    orderToEval: 'default' as EdgeVisual,
+    evalToZendesk: 'default' as EdgeVisual,
+    compToEval: 'muted' as EdgeVisual,
+  }
+
+  switch (phase) {
+    case 'alert':
+      n.orderAgent = 'warn'
+      n.llmRouting = 'affected'
+      n.evaluator = 'warn'
+      n.storeCustomers = 'affected'
+      e.storeToGw = 'alert-warn'
+      e.gwToOrder = 'alert'
+      e.orderToLlm = 'alert-warn'
+      e.orderToEval = 'alert-warn'
+      break
+
+    case 'traffic-stopped':
+      n.orderAgent = 'disabled'
+      n.llmRouting = 'default'
+      n.evaluator = 'default'
+      n.storeCustomers = 'default'
+      e.storeToGw = 'dim'
+      e.gwToOrder = 'dim'
+      e.orderToLlm = 'dim'
+      e.orderToResponse = 'dim'
+      e.orderToEval = 'dim'
+      break
+
+    case 'retraining':
+      n.orderAgent = 'disabled'
+      n.evaluator = 'processing'
+      e.storeToGw = 'dim'
+      e.gwToOrder = 'dim'
+      e.orderToLlm = 'dim'
+      e.orderToResponse = 'dim'
+      e.orderToEval = 'processing'
+      e.compToEval = 'processing'
+      break
+
+    case 'retrain-complete':
+      n.orderAgent = 'disabled'
+      n.evaluator = 'healthy'
+      e.storeToGw = 'dim'
+      e.gwToOrder = 'dim'
+      e.orderToLlm = 'dim'
+      e.orderToResponse = 'dim'
+      e.orderToEval = 'dim'
+      break
+
+    case 'deploying':
+      n.orderAgent = 'processing'
+      n.evaluator = 'healthy'
+      e.storeToGw = 'dim'
+      e.gwToOrder = 'processing'
+      e.orderToLlm = 'dim'
+      e.orderToResponse = 'dim'
+      e.orderToEval = 'dim'
+      break
+
+    case 'healthy':
+      n.orderAgent = 'healthy'
+      n.llmRouting = 'healthy'
+      n.evaluator = 'healthy'
+      n.responseOrch = 'healthy'
+      e.storeToGw = 'healthy'
+      e.gwToOrder = 'healthy'
+      e.orderToLlm = 'healthy'
+      e.orderToResponse = 'healthy'
+      e.orderToEval = 'healthy'
+      e.evalToZendesk = 'healthy'
+      e.compToEval = 'healthy'
+      break
+  }
+
+  return { n, e }
+}
+
 export function BlastRadiusGraph() {
-  const { remediated, liveTick } = useMissionCluster()
+  const { liveTick, clusterPhase } = useMissionCluster()
 
-  const sessionBurst = 1200 + liveTick * 14
-  const tokenRate = remediated ? '1.1M/m' : `${(2.1 + (liveTick % 4) * 0.04).toFixed(2)}M/m`
+  const sessionBurst = clusterPhase === 'healthy'
+    ? 1200 + liveTick * 14
+    : clusterPhase === 'traffic-stopped' || clusterPhase === 'retraining' || clusterPhase === 'retrain-complete' || clusterPhase === 'deploying'
+      ? 42 + liveTick * 2
+      : 1200 + liveTick * 14
+  const tokenRate = clusterPhase === 'healthy'
+    ? '1.1M/m'
+    : clusterPhase === 'traffic-stopped' || clusterPhase === 'retraining' || clusterPhase === 'retrain-complete'
+      ? '0.02M/m'
+      : `${(2.1 + (liveTick % 4) * 0.04).toFixed(2)}M/m`
+
+  const { n, e } = deriveVisuals(clusterPhase)
 
   return (
     <div className="blast-canvas">
       <p className="sr-only">
-        Service dependency graph showing blast radius from Agent Cluster-7 through API,
-        orchestrator, and integrations. Affected paths are emphasized until remediation
-        is applied; open sessions and token rate appear in the header above.
+        Agent cluster dependency graph showing Order Processing Agent and connected
+        agents, services, and users. Visual state reflects the current Agentforce
+        conversation phase.
       </p>
       <div className="blast-canvas-head">
-        <div className="blast-canvas-title">Service graph · Blast radius</div>
+        <div className="blast-canvas-title">Service Graph</div>
         <div className="blast-canvas-meta">
           <span>
             Open sessions <strong>{sessionBurst.toLocaleString()}</strong>
@@ -38,162 +142,115 @@ export function BlastRadiusGraph() {
                 </feMerge>
               </filter>
             </defs>
-            {/* Core paths */}
-            <path
-              d="M 120 280 L 220 280 L 320 240"
-              fill="none"
-              stroke={remediated ? '#cbd5e1' : '#fecaca'}
-              strokeWidth="2.5"
-              className={remediated ? '' : 'blast-edge-pulse'}
-            />
-            <path
-              d="M 320 240 L 460 200 L 600 260"
-              fill="none"
-              stroke="#cbd5e1"
-              strokeWidth="2"
-            />
-            <path
-              d="M 460 200 L 460 120 L 560 90"
-              fill="none"
-              stroke={remediated ? '#cbd5e1' : '#f59e0b'}
-              strokeWidth="2"
-              strokeDasharray="5 4"
-              className={remediated ? '' : 'blast-edge-pulse'}
-            />
-            <path
-              d="M 460 200 L 420 320 L 460 400"
-              fill="none"
-              stroke={remediated ? '#cbd5e1' : '#f59e0b'}
-              strokeWidth="2.5"
-              className={remediated ? '' : 'blast-edge-pulse'}
-            />
-            <path
-              d="M 460 400 L 320 440 L 180 400"
-              fill="none"
-              stroke="#cbd5e1"
-              strokeWidth="2"
-            />
-            <path
-              d="M 600 260 L 720 220 L 820 180"
-              fill="none"
-              stroke="#cbd5e1"
-              strokeWidth="2"
-            />
-            <path
-              d="M 600 260 L 740 300 L 860 340"
-              fill="none"
-              stroke="#cbd5e1"
-              strokeWidth="2"
-            />
-            <path
-              d="M 460 400 L 580 460 L 720 480"
-              fill="none"
-              stroke="#cbd5e1"
-              strokeWidth="2"
-            />
-            <path
-              d="M 320 240 L 240 140 L 140 100"
-              fill="none"
-              stroke="#e5e7eb"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M 320 240 L 200 360 L 100 420"
-              fill="none"
-              stroke="#e5e7eb"
-              strokeWidth="1.5"
-            />
+
+            {/* Users → API Gateway */}
+            <Edge d="M 100 140 L 260 200" visual="muted" />
+            <Edge d="M 100 280 L 260 255" visual={e.storeToGw} />
+            <Edge d="M 100 420 L 260 310" visual="muted" />
+
+            {/* API Gateway → Order Processing Agent */}
+            <Edge d="M 320 255 L 460 255" visual={e.gwToOrder} />
+
+            {/* Order Processing Agent → right-side agents */}
+            <Edge d="M 520 230 L 660 160" visual={e.orderToLlm} dashed />
+            <Edge d="M 520 255 L 660 280" visual={e.orderToResponse} />
+            <Edge d="M 520 280 L 660 400" visual={e.orderToEval} />
+
+            {/* Response Orchestrator → downstream */}
+            <Edge d="M 720 280 L 850 200" visual="muted" />
+            <Edge d="M 720 280 L 850 355" visual="muted" />
+
+            {/* LLM Routing → Knowledge Base */}
+            <Edge d="M 720 160 L 850 80" visual="muted" />
+
+            {/* Evaluator → Zendesk */}
+            <Edge d="M 720 400 L 850 460" visual={e.evalToZendesk} />
+
+            {/* API Gateway → Compliance Agent */}
+            <Edge d="M 290 290 L 290 430" visual="muted" />
+
+            {/* Compliance → Evaluator */}
+            <Edge d="M 350 450 L 600 420" visual={e.compToEval} />
           </svg>
 
+          {/* Left column: user sources */}
+          <BlastNode left={80} top={140} title="Enterprise users" subtitle="SSO · SAML" small />
+          <BlastNode left={80} top={280} title="Store customers" subtitle="Chat widget" small visual={n.storeCustomers} />
+          <BlastNode left={80} top={420} title="Mobile clients" subtitle="iOS / Android" small />
+
+          {/* Center-left: gateway */}
+          <BlastNode left={290} top={255} title="API Gateway" subtitle="Rate limits · OAuth" />
+
+          {/* CENTER: primary agent */}
           <BlastNode
-            left={40}
-            top={250}
-            title="External users"
-            subtitle="Identity federation"
-            small
-            affected={!remediated}
-          />
-          <BlastNode
-            left={200}
+            left={490}
             top={255}
-            title="Public API tier"
-            subtitle="Rate limits · OAuth"
-          />
-          <BlastNode
-            left={360}
-            top={175}
-            title="Agent Cluster-7"
+            title="Order Processing Agent"
             subtitle="US production"
-            warn
-            affected={!remediated}
+            visual={n.orderAgent}
+            disabledLabel={clusterPhase === 'traffic-stopped' || clusterPhase === 'retraining' || clusterPhase === 'retrain-complete' ? 'Traffic stopped' : undefined}
           />
-          <BlastNode
-            left={520}
-            top={235}
-            title="Response orchestrator"
-            subtitle="Synthesis + policy"
-          />
-          <BlastNode
-            left={680}
-            top={195}
-            title="Salesforce CRM"
-            subtitle="Account graph"
-          />
-          <BlastNode
-            left={760}
-            top={305}
-            title="Snowflake"
-            subtitle="Telemetry lake"
-          />
-          <BlastNode
-            left={520}
-            top={90}
-            title="LLM routing fabric"
-            subtitle="Primary + fallback"
-            affected={!remediated}
-          />
-          <BlastNode
-            left={400}
-            top={375}
-            title="Eval / vector store"
-            subtitle="Golden sets · RAG"
-            warn
-            affected={!remediated}
-          />
-          <BlastNode
-            left={120}
-            top={370}
-            title="Support widget CDN"
-            subtitle="Embeds"
-          />
-          <BlastNode
-            left={600}
-            top={445}
-            title="Zendesk bridge"
-            subtitle="Ticket enrichment"
-          />
-          <BlastNode
-            left={90}
-            top={70}
-            title="Corporate WAF"
-            subtitle="Ingress"
-          />
-          <BlastNode
-            left={240}
-            top={120}
-            title="Secrets vault"
-            subtitle="KMS-backed"
-          />
-          <BlastNode
-            left={60}
-            top={390}
-            title="Mobile clients"
-            subtitle="iOS / Android"
-            small
-          />
+
+          {/* Right column: connected agents */}
+          <BlastNode left={690} top={160} title="LLM Routing Agent" subtitle="Primary + fallback" visual={n.llmRouting} />
+          <BlastNode left={690} top={280} title="Response Orchestrator Agent" subtitle="Synthesis + policy" visual={n.responseOrch} />
+          <BlastNode left={690} top={400} title="Evaluator Agent" subtitle="Golden sets · RAG" visual={n.evaluator} />
+
+          {/* Far right: downstream services */}
+          <BlastNode left={850} top={80} title="Knowledge Base" subtitle="Vector store" small />
+          <BlastNode left={850} top={200} title="Salesforce CRM" subtitle="Account graph" small />
+          <BlastNode left={850} top={355} title="Snowflake" subtitle="Telemetry lake" small />
+          <BlastNode left={850} top={460} title="Zendesk Bridge" subtitle="Ticket enrichment" small />
+
+          {/* Bottom: compliance */}
+          <BlastNode left={290} top={450} title="Compliance Agent" subtitle="Policy enforcement" visual={n.compliance} />
         </div>
       </div>
     </div>
+  )
+}
+
+function Edge({
+  d,
+  visual = 'default',
+  dashed,
+}: {
+  d: string
+  visual?: EdgeVisual
+  dashed?: boolean
+}) {
+  let color: string
+  let width: number
+  let animated = false
+  let dashArray = dashed ? '5 4' : undefined
+
+  switch (visual) {
+    case 'alert':
+      color = '#fecaca'; width = 2.5; animated = true; break
+    case 'alert-warn':
+      color = '#f59e0b'; width = 2.5; animated = true; break
+    case 'muted':
+      color = '#374151'; width = 1.5; break
+    case 'dim':
+      color = '#1f2937'; width = 1; dashArray = '4 6'; break
+    case 'processing':
+      color = '#38bdf8'; width = 2; animated = true; break
+    case 'healthy':
+      color = '#34d399'; width = 2; break
+    default:
+      color = '#4b5563'; width = 2; break
+  }
+
+  return (
+    <path
+      d={d}
+      fill="none"
+      stroke={color}
+      strokeWidth={width}
+      strokeDasharray={dashArray}
+      className={animated ? 'blast-edge-pulse' : ''}
+      style={{ transition: 'stroke 0.6s ease-in-out, stroke-width 0.4s ease-in-out, opacity 0.4s ease-in-out' }}
+    />
   )
 }
 
@@ -203,24 +260,34 @@ function BlastNode({
   title,
   subtitle,
   small,
-  warn,
-  affected,
+  visual = 'default',
+  disabledLabel,
 }: {
   left: number
   top: number
   title: string
   subtitle: string
   small?: boolean
-  warn?: boolean
-  affected?: boolean
+  visual?: NodeVisual
+  disabledLabel?: string
 }) {
+  const cls = [
+    'blast-node',
+    small && 'blast-node--sm',
+    visual === 'warn' && 'blast-node--warn',
+    visual === 'affected' && 'blast-node--affected',
+    visual === 'disabled' && 'blast-node--disabled',
+    visual === 'processing' && 'blast-node--processing',
+    visual === 'healthy' && 'blast-node--healthy',
+  ].filter(Boolean).join(' ')
+
+  const isDisabled = visual === 'disabled'
+  const displaySub = disabledLabel && isDisabled ? disabledLabel : subtitle
+
   return (
-    <div
-      className={`blast-node${small ? ' blast-node--sm' : ''}${warn ? ' blast-node--warn' : ''}${affected ? ' blast-node--affected' : ''}`}
-      style={{ left: `${left}px`, top: `${top}px` }}
-    >
-      <div className="blast-node-title">{title}</div>
-      <div className="blast-node-sub">{subtitle}</div>
+    <div className={cls} style={{ left: `${left}px`, top: `${top}px` }}>
+      <div className={`blast-node-title${isDisabled ? ' blast-node-title--strike' : ''}`}>{title}</div>
+      <div className="blast-node-sub">{displaySub}</div>
     </div>
   )
 }

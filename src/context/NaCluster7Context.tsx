@@ -12,7 +12,7 @@ const STORAGE_KEY = 'trustops_na_cluster7_resolved'
 const RESOLVED_EVENT = 'trustops-na-cluster7-resolved'
 
 type NaCluster7ContextValue = {
-  /** NA Agent Cluster-7 incident cleared after production deploy */
+  /** NA Order Processing Agent incident cleared after production deploy */
   naCluster7Resolved: boolean
   markNaCluster7Resolved: () => void
   /** Clear persisted demo state, go to Global View, and hard-reload for a clean run */

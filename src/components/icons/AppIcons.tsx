@@ -109,3 +109,16 @@ export function IconRestart(props: IconProps) {
     </svg>
   )
 }
+
+/** Neutral shell mark for mission layout chrome (decorative). */
+export function IconWorkspace(props: IconProps) {
+  const p = baseProps(24, props)
+  return (
+    <svg {...p} aria-hidden>
+      <rect x="3" y="3" width="8" height="8" rx="1.5" strokeWidth={2} />
+      <rect x="13" y="3" width="8" height="8" rx="1.5" strokeWidth={2} />
+      <rect x="3" y="13" width="8" height="8" rx="1.5" strokeWidth={2} />
+      <rect x="13" y="13" width="8" height="8" rx="1.5" strokeWidth={2} />
+    </svg>
+  )
+}

@@ -1,30 +1,12 @@
-import { useState } from 'react'
+import { IconWorkspace } from '../icons/AppIcons'
 
-const ICONS = [
-  { id: 'grid', symbol: '⊞' },
-  { id: 'k8s', symbol: '⎈' },
-  { id: 'cmd', symbol: '⌘' },
-  { id: 'export', symbol: '⍄' },
-] as const
-
+/** Slim layout rail; views are switched from the investigation tabs. */
 export function AppSidebar() {
-  const [activeId, setActiveId] = useState<string>('k8s')
-
   return (
-    <aside className="app-sidebar" aria-label="Tools">
-      {ICONS.map((item) => (
-        <button
-          key={item.id}
-          type="button"
-          className={`sidebar-icon${activeId === item.id ? ' active' : ''}`}
-          onClick={() => setActiveId(item.id)}
-        >
-          {item.symbol}
-        </button>
-      ))}
-      <button type="button" className="sidebar-icon settings">
-        ⚙
-      </button>
+    <aside className="app-sidebar" aria-label="Mission layout">
+      <div className="sidebar-mark" aria-hidden>
+        <IconWorkspace size={22} />
+      </div>
     </aside>
   )
 }

@@ -166,7 +166,7 @@ export function RedeployModal() {
         {step === 1 ? (
           <>
             <p id="redeploy-desc-1" className="redeploy-copy">
-              Confirm production deploy for <strong>Agent Cluster-7</strong> in{' '}
+              Confirm production deploy for <strong>Order Processing Agent</strong> in{' '}
               <strong>United States</strong> production. Traffic will shift as new
               tasks pick up the revision.
             </p>

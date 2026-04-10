@@ -22,6 +22,7 @@ import {
   TelemetrySidebar,
   type TelemetrySidebarPanel,
 } from './TelemetrySidebar'
+import { AgentClusterModal } from './AgentClusterModal'
 import { ContinentOverviewCanvas } from './ContinentOverviewCanvas'
 import { TopologyCanvas } from './TopologyCanvas'
 
@@ -43,6 +44,7 @@ export function GlobalViewPage() {
     [setSearchParams],
   )
   const [telemetryPanel, setTelemetryPanel] = useState<TelemetrySidebarPanel>('metrics')
+  const [clusterModalOpen, setClusterModalOpen] = useState(false)
   const focusAlertsAfterBannerCta = useRef(false)
 
   const {
@@ -134,7 +136,7 @@ export function GlobalViewPage() {
                 <p className="global-page-subtitle">
                   {mapScope === 'north-america'
                     ? 'Where store assistants and digital agents run today — Canada, US, and Mexico.'
-                    : 'East and West auth hubs, gateway, and Agent Cluster-7 (drill down in Mission Control).'}
+                    : 'East and West auth hubs, gateway, and Agent Cluster 7 (drill down in Mission Control).'}
                 </p>
               </div>
               {mapScope === 'united-states' ? (
@@ -159,7 +161,10 @@ export function GlobalViewPage() {
                   </div>
                 ) : (
                   <div key="map-us" className="global-map-stage global-map-stage--us-zoom-in">
-                    <TopologyCanvas incidentResolved={naCluster7Resolved} />
+                    <TopologyCanvas
+                      incidentResolved={naCluster7Resolved}
+                      onOpenCluster={() => setClusterModalOpen(true)}
+                    />
                   </div>
                 )}
               </div>
@@ -184,6 +189,12 @@ export function GlobalViewPage() {
             </div>
           </main>
         </div>
+
+        <AgentClusterModal
+          open={clusterModalOpen}
+          onClose={() => setClusterModalOpen(false)}
+          incidentResolved={naCluster7Resolved}
+        />
       </div>
     </div>
   )

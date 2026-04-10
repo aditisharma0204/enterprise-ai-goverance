@@ -21,7 +21,7 @@ export function ContentHeader() {
             United States
           </Link>
           <span className="global-crumb-sep">/</span>
-          <span className="global-crumb-current">Agent Cluster-7</span>
+          <span className="global-crumb-current">Order Processing Agent</span>
         </div>
         <h1 className="global-page-title">Cluster operations & dependency review</h1>
       </div>

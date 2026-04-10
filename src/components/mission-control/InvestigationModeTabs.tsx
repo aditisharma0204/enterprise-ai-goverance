@@ -1,23 +1,27 @@
 import { useCallback, useRef, type KeyboardEvent } from 'react'
 import type { InvestigationMode } from './MissionClusterContext'
 
-const MODES: { id: InvestigationMode; label: string; hint: string }[] = [
+const ALL_MODES: { id: InvestigationMode; label: string; hint: string; hidden?: boolean }[] = [
   {
     id: 'blast',
-    label: 'Blast radius',
-    hint: 'CMDB & service graph',
+    label: 'Service graph',
+    hint: 'Agent cluster dependencies',
   },
   {
     id: 'workflow',
     label: 'Workflow',
     hint: 'Architecture nodes',
+    hidden: true,
   },
   {
     id: 'edges',
-    label: 'Live edges',
-    hint: 'Traffic & interactions',
+    label: 'Live traffic',
+    hint: 'Recent requests between services',
+    hidden: true,
   },
 ]
+
+const MODES = ALL_MODES.filter((m) => !m.hidden)
 
 type Props = {
   mode: InvestigationMode

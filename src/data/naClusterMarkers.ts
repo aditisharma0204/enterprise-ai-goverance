@@ -43,7 +43,7 @@ export const NA_CLUSTER_MARKERS: NaClusterMarker[] = [
   { id: 'us-jfk', label: 'New York', cx: 568, cy: 448 },
   { id: 'us-bos', label: 'Boston', cx: 592, cy: 428 },
   { id: 'us-dca', label: 'Washington', cx: 558, cy: 462 },
-  { id: 'us-ac7', label: 'Agent Cluster-7', cx: 402, cy: 472 },
+  { id: 'us-ac7', label: 'Agent Cluster 7', cx: 402, cy: 472 },
   { id: 'mx-mex', label: 'Mexico City', cx: 392, cy: 805 },
 ]
 

@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom'
-import { ROUTES } from '../../constants/routes'
-
 type TopologyCanvasProps = {
-  /** After NA Cluster-7 deploy, topology reflects healthy state */
+  /** After Order Processing Agent deploy, topology reflects healthy state */
   incidentResolved?: boolean
+  onOpenCluster?: () => void
 }
 
 function SmAgent({
@@ -27,13 +25,13 @@ function SmAgent({
   )
 }
 
-export function TopologyCanvas({ incidentResolved = false }: TopologyCanvasProps) {
+export function TopologyCanvas({ incidentResolved = false, onOpenCluster }: TopologyCanvasProps) {
   return (
     <div className="global-topology-scale">
       <p className="sr-only">
         United States operations map: central gateway, US East and US West hubs, store
         and field agents, and downstream services. Lines show traffic paths; use zoom
-        controls to adjust the view. Open Agent Cluster-7 in Mission Control for
+        controls to adjust the view. Open Order Processing Agent in Mission Control for
         cluster-level detail.
       </p>
       <svg className="global-topology-svg" aria-hidden>
@@ -356,8 +354,9 @@ export function TopologyCanvas({ incidentResolved = false }: TopologyCanvasProps
       <SmAgent left="calc(220px - 60px)" top="calc(300px - 18px)" label="Agent USE-5" />
       <SmAgent left="calc(350px - 60px)" top="calc(360px - 18px)" label="Agent USE-6" />
 
-      <Link
-        to={ROUTES.agentCluster7}
+      <button
+        type="button"
+        onClick={onOpenCluster}
         className={
           incidentResolved
             ? 'topology-node topology-node--cluster-healthy'
@@ -368,15 +367,15 @@ export function TopologyCanvas({ incidentResolved = false }: TopologyCanvasProps
         {incidentResolved ? (
           <>
             <div className="topology-healthy-head">
-              <span className="topology-healthy-title">Agent Cluster-7</span>
+              <span className="topology-healthy-title">Agent Cluster 7</span>
               <div className="topology-healthy-dot" />
             </div>
-            <div className="topology-healthy-sub">Policy aligned · US</div>
+            <div className="topology-healthy-sub">All agents healthy · US</div>
           </>
         ) : (
           <>
             <div className="topology-alert-head">
-              <span className="topology-alert-title">Agent Cluster-7</span>
+              <span className="topology-alert-title">Agent Cluster 7</span>
               <div className="topology-alert-ping-wrap">
                 <span className="topology-alert-ping" />
                 <span className="topology-alert-dot" />
@@ -395,7 +394,7 @@ export function TopologyCanvas({ incidentResolved = false }: TopologyCanvasProps
             </div>
           </>
         )}
-      </Link>
+      </button>
 
       <SmAgent left="calc(100px - 60px)" top="calc(280px - 18px)" label="Agent USE-8" />
 

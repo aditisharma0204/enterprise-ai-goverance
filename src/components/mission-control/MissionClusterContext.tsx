@@ -11,6 +11,14 @@ import { useNaCluster7 } from '../../context/NaCluster7Context'
 
 export type InvestigationMode = 'blast' | 'workflow' | 'edges'
 
+export type ClusterPhase =
+  | 'alert'
+  | 'traffic-stopped'
+  | 'retraining'
+  | 'retrain-complete'
+  | 'deploying'
+  | 'healthy'
+
 export type SessionLog = {
   id: string
   badge: 'danger' | 'warning'
@@ -33,6 +41,10 @@ type MissionClusterContextValue = {
   finishRedeploy: (revisionId: string) => void
   workflowNodeDetail: string | null
   setWorkflowNodeDetail: (id: string | null) => void
+  trafficStopped: boolean
+  setTrafficStopped: (v: boolean) => void
+  clusterPhase: ClusterPhase
+  setClusterPhase: (p: ClusterPhase) => void
 }
 
 const MissionClusterContext = createContext<MissionClusterContextValue | null>(
@@ -72,6 +84,8 @@ export function MissionClusterProvider({ children }: { children: ReactNode }) {
   const [workflowNodeDetail, setWorkflowNodeDetail] = useState<string | null>(
     null,
   )
+  const [trafficStopped, setTrafficStopped] = useState(false)
+  const [clusterPhase, setClusterPhase] = useState<ClusterPhase>('alert')
 
   useEffect(() => {
     const id = setInterval(() => setLiveTick((n) => n + 1), 2800)
@@ -137,6 +151,10 @@ export function MissionClusterProvider({ children }: { children: ReactNode }) {
       finishRedeploy,
       workflowNodeDetail,
       setWorkflowNodeDetail,
+      trafficStopped,
+      setTrafficStopped,
+      clusterPhase,
+      setClusterPhase,
     }),
     [
       investigationMode,
@@ -151,6 +169,8 @@ export function MissionClusterProvider({ children }: { children: ReactNode }) {
       deployRevisionId,
       finishRedeploy,
       workflowNodeDetail,
+      trafficStopped,
+      clusterPhase,
     ],
   )
 

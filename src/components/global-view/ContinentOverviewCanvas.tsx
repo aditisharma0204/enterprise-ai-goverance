@@ -28,7 +28,7 @@ function keyActivate(e: KeyboardEvent, action: () => void): void {
 
 /**
  * North America basemap (PNG in /public) with agent clusters in image pixel space.
- * Open U.S. hubs by clicking the contiguous United States; open Mission Control from Agent Cluster-7.
+ * Open U.S. hubs by clicking the contiguous United States; open Mission Control from Order Processing Agent.
  */
 export function ContinentOverviewCanvas({
   incidentResolved = false,
@@ -41,7 +41,7 @@ export function ContinentOverviewCanvas({
     <div className="global-continent-scale">
       <p className="sr-only">
         North America map with twenty-two agent cluster markers. Click the United
-        States region to open the U.S. hub map. Click Agent Cluster-7 to open Mission
+        States region to open the U.S. hub map. Click Order Processing Agent to open Mission
         Control.
       </p>
 
@@ -135,7 +135,7 @@ export function ContinentOverviewCanvas({
         </span>
         {!incidentResolved ? (
           <span className="continent-legend-item continent-legend-item--emphasis">
-            Agent Cluster-7 — click for Mission Control
+            Agent Cluster 7 — click for Mission Control
           </span>
         ) : (
           <span className="continent-legend-item">All clusters within policy</span>
@@ -148,7 +148,7 @@ export function ContinentOverviewCanvas({
           hubs and gateways — zoom controls then appear on the right.
         </p>
         <p className="continent-map-hint-line">
-          <strong>Agent Cluster-7:</strong> click the marker (or use Mission Control
+          <strong>Agent Cluster 7:</strong> click the marker (or use Mission Control
           in the header) to triage the active alert.
         </p>
       </div>

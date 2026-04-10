@@ -25,10 +25,10 @@ export const GLOBAL_ALERTS: GlobalAlert[] = [
   {
     id: 'ac7-drift',
     severity: 'warning',
-    title: 'Policy drift · Agent Cluster-7',
+    title: 'Policy drift · Order Processing Agent',
     description: 'Store & field traffic outside approved guardrails.',
     region: 'US — stores & field',
-    clusterLabel: 'Agent Cluster-7',
+    clusterLabel: 'Order Processing Agent',
     clusterPath: ROUTES.agentCluster7,
     status: 'open',
     openedAtLabel: '12 min ago',

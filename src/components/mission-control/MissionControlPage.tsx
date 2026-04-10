@@ -4,10 +4,10 @@ import { TrustOpsHeader } from '../shell/TrustOpsHeader'
 import { AppSidebar } from './AppSidebar'
 import { BlastRadiusGraph } from './BlastRadiusGraph'
 import { ContentHeader } from './ContentHeader'
-import { DetailsPanel } from './DetailsPanel'
+import { AgentForcePanel } from './AgentForcePanel'
 import { EdgeTrafficView } from './EdgeTrafficView'
 import { GraphCanvas } from './GraphCanvas'
-import { InvestigationModeTabs } from './InvestigationModeTabs'
+// import { InvestigationModeTabs } from './InvestigationModeTabs'
 import { LiveStatusStrip } from './LiveStatusStrip'
 import {
   MissionClusterProvider,
@@ -20,11 +20,11 @@ import { WorkflowNodeDetailModal } from './WorkflowNodeDetailModal'
 const INVESTIGATION_REGION_LABEL: Record<InvestigationMode, string> = {
   blast: 'Blast radius service graph',
   workflow: 'Workflow architecture',
-  edges: 'Live edge traffic',
+  edges: 'Live traffic between services',
 }
 
 function MissionControlBody() {
-  const { investigationMode, setInvestigationMode } = useMissionCluster()
+  const { investigationMode } = useMissionCluster()
 
   return (
     <div className="mission-root">
@@ -41,10 +41,6 @@ function MissionControlBody() {
 
             <div className="workspace">
               <div className="workspace-main">
-                <InvestigationModeTabs
-                  mode={investigationMode}
-                  onChange={setInvestigationMode}
-                />
                 <div
                   className="investigation-viewport mc-scroll"
                   role="region"
@@ -55,7 +51,7 @@ function MissionControlBody() {
                   {investigationMode === 'edges' ? <EdgeTrafficView /> : null}
                 </div>
               </div>
-              <DetailsPanel />
+              <AgentForcePanel />
             </div>
           </main>
         </div>

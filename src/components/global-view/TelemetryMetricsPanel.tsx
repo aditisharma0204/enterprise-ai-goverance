@@ -3,7 +3,7 @@ import { IconTrendUp } from '../icons/AppIcons'
 
 type Props = {
   mapScope: GlobalMapScope
-  /** When true, NA Cluster-7 healthy — affects US-footprint trust / nodes */
+  /** When true, Order Processing Agent healthy — affects US-footprint trust / nodes */
   incidentResolved: boolean
   healthyCount: number
   activeCriticalCount: number
