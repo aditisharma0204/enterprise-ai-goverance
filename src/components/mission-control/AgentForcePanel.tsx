@@ -17,13 +17,13 @@ interface ChatMessage {
 }
 
 const POLICY_CLAUSE =
-  '§4.2 Domain Boundary Enforcement — The agent must not generate responses outside its approved knowledge domain. Any request that falls outside the declared scope must be declined with a standard boundary message.'
+  '§4.2 Domain Boundaries — This agent may only answer questions about its assigned topic (order processing). If a customer asks about something else, the agent must politely decline instead of answering.'
 
 const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: 'af-1',
     role: 'agent',
-    body: 'Order Processing Agent has 3 policy warnings/min. I detected a prompt bypass on usr_8x92a… — the agent responded to electrical wiring instructions outside its approved domain.',
+    body: 'The Order Processing Agent is answering questions it shouldn\'t — a customer asked about electrical wiring and got a response instead of being redirected. This is happening about 3 times per minute.',
     policyRef: POLICY_CLAUSE,
     metrics: [
       { label: 'People/hr exposed', value: '~18.2K' },

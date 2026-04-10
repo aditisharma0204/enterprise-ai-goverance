@@ -142,33 +142,33 @@ export function BlastRadiusGraph() {
             </defs>
 
             {/* Users → API Gateway */}
-            <Edge d="M 100 140 L 260 200" visual="muted" tokens={tokens} />
-            <Edge d="M 100 280 L 260 255" visual={e.storeToGw} tokens={tokens} />
-            <Edge d="M 100 420 L 260 310" visual="muted" tokens={tokens} />
+            <Edge d="M 80 140 L 290 255" visual="muted" tokens={tokens} />
+            <Edge d="M 80 280 L 290 255" visual={e.storeToGw} tokens={tokens} />
+            <Edge d="M 80 420 L 290 255" visual="muted" tokens={tokens} />
 
             {/* API Gateway → Order Processing Agent */}
-            <Edge d="M 320 255 L 460 255" visual={e.gwToOrder} tokens={tokens} />
+            <Edge d="M 290 255 L 490 255" visual={e.gwToOrder} tokens={tokens} />
 
             {/* Order Processing Agent → right-side agents */}
-            <Edge d="M 520 230 L 660 160" visual={e.orderToLlm} dashed tokens={tokens} />
-            <Edge d="M 520 255 L 660 280" visual={e.orderToResponse} tokens={tokens} />
-            <Edge d="M 520 280 L 660 400" visual={e.orderToEval} tokens={tokens} />
+            <Edge d="M 490 255 L 690 160" visual={e.orderToLlm} dashed tokens={tokens} />
+            <Edge d="M 490 255 L 690 280" visual={e.orderToResponse} tokens={tokens} />
+            <Edge d="M 490 255 L 690 400" visual={e.orderToEval} tokens={tokens} />
 
             {/* Response Orchestrator → downstream */}
-            <Edge d="M 720 280 L 850 200" visual="muted" tokens={tokens} />
-            <Edge d="M 720 280 L 850 355" visual="muted" tokens={tokens} />
+            <Edge d="M 690 280 L 850 200" visual="muted" tokens={tokens} />
+            <Edge d="M 690 280 L 850 355" visual="muted" tokens={tokens} />
 
             {/* LLM Routing → Knowledge Base */}
-            <Edge d="M 720 160 L 850 80" visual="muted" tokens={tokens} />
+            <Edge d="M 690 160 L 850 80" visual="muted" tokens={tokens} />
 
             {/* Evaluator → Zendesk */}
-            <Edge d="M 720 400 L 850 460" visual={e.evalToZendesk} tokens={tokens} />
+            <Edge d="M 690 400 L 850 460" visual={e.evalToZendesk} tokens={tokens} />
 
             {/* API Gateway → Compliance Agent */}
-            <Edge d="M 290 290 L 290 430" visual="muted" tokens={tokens} />
+            <Edge d="M 290 255 L 290 450" visual="muted" tokens={tokens} />
 
             {/* Compliance → Evaluator */}
-            <Edge d="M 350 450 L 600 420" visual={e.compToEval} tokens={tokens} />
+            <Edge d="M 290 450 L 690 400" visual={e.compToEval} tokens={tokens} />
           </svg>
 
           {/* Left column: user sources */}

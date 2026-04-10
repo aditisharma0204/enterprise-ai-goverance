@@ -112,7 +112,7 @@ export function ContinentOverviewCanvas({
                     r={c.status === 'urgent' ? 110 : 85}
                     pointerEvents={isAc7 ? 'none' : 'auto'}
                   />
-                  <title>{`${c.label} · ${c.status === 'healthy' ? 'Healthy' : c.status === 'urgent' ? 'Urgent' : c.status === 'elevated' ? 'Elevated' : 'Info'}${isAc7 ? '. Click to open Mission Control.' : ''}`}</title>
+                  <title>{`${c.label} · ${c.status === 'healthy' ? 'Healthy' : c.status === 'urgent' ? 'Urgent' : c.status === 'elevated' ? 'Warning' : 'Info'}${isAc7 ? '. Click to open Mission Control.' : ''}`}</title>
                 </g>
               )
             })}

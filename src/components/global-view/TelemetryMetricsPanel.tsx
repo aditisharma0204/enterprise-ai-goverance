@@ -181,7 +181,7 @@ export function TelemetryMetricsPanel({
                     background: activeWarningCount ? 'var(--status-warning)' : 'var(--border-color)',
                   }}
                 />
-                Elevated
+                Warning
               </div>
               <span
                 style={{
@@ -255,7 +255,7 @@ export function TelemetryMetricsPanel({
                     background: us.elevated ? 'var(--status-warning)' : 'var(--border-color)',
                   }}
                 />
-                Elevated
+                Warning
               </div>
               <span
                 style={{
