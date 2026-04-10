@@ -8,15 +8,14 @@ type Props = {
   healthyCount: number
   activeCriticalCount: number
   activeWarningCount: number
-  activeInfoCount: number
 }
 
 /** US topology map: routers + agents in view (demo counts, coherent with scope). */
 function usFootprintNodes(incidentResolved: boolean) {
   if (incidentResolved) {
-    return { total: 14, healthy: 14, urgent: 0, elevated: 0, fyi: 0 }
+    return { total: 14, healthy: 14, urgent: 0, elevated: 0 }
   }
-  return { total: 14, healthy: 12, urgent: 1, elevated: 1, fyi: 0 }
+  return { total: 14, healthy: 12, urgent: 1, elevated: 1 }
 }
 
 /** Metrics tab body — values and labels follow map scope (continent vs US drill-in). */
@@ -26,7 +25,6 @@ export function TelemetryMetricsPanel({
   healthyCount,
   activeCriticalCount,
   activeWarningCount,
-  activeInfoCount,
 }: Props) {
   const isContinent = mapScope === 'north-america'
   const us = usFootprintNodes(incidentResolved)
@@ -54,7 +52,7 @@ export function TelemetryMetricsPanel({
     <>
       <p className="telemetry-metrics-scope" id="telemetry-metrics-scope">
         {isContinent
-          ? 'Scope: North America — all 22 agent clusters on the map.'
+          ? 'Scope: North America — all 43 agent clusters on the map.'
           : 'Scope: United States — hubs & agents on this map only.'}
       </p>
 
@@ -126,18 +124,18 @@ export function TelemetryMetricsPanel({
         <div className="telemetry-card telemetry-card--elevated">
           <div className="telemetry-node-head">
             Agent clusters
-            <span className="telemetry-node-pill">22 total</span>
+            <span className="telemetry-node-pill">43 total</span>
           </div>
           <p className="telemetry-node-scope-hint">Canada · United States · Mexico</p>
           <div className="telemetry-status-rows">
             <div className="telemetry-status-row">
-              <div className="telemetry-status-label" style={{ color: 'var(--gv-topology-sm-text)' }}>
+              <div className="telemetry-status-label" style={{ color: 'var(--status-success)' }}>
                 <span
                   style={{
                     width: 8,
                     height: 8,
                     borderRadius: '50%',
-                    background: 'var(--status-success)',
+                    background: 'var(--status-success-dot)',
                   }}
                 />
                 Healthy
@@ -147,7 +145,10 @@ export function TelemetryMetricsPanel({
             <div
               className={`telemetry-status-row${activeCriticalCount ? '' : ' telemetry-status-row--muted'}`}
             >
-              <div className="telemetry-status-label">
+              <div
+                className="telemetry-status-label"
+                style={{ color: activeCriticalCount ? 'var(--status-danger)' : undefined }}
+              >
                 <span
                   style={{
                     width: 8,
@@ -169,7 +170,7 @@ export function TelemetryMetricsPanel({
               <div
                 className="telemetry-status-label"
                 style={{
-                  color: activeWarningCount ? 'var(--status-warning-text)' : 'var(--text-tertiary)',
+                  color: activeWarningCount ? 'var(--status-warning-text)' : undefined,
                 }}
               >
                 <span
@@ -185,38 +186,10 @@ export function TelemetryMetricsPanel({
               <span
                 style={{
                   fontWeight: 700,
-                  color: activeWarningCount ? 'var(--text-primary)' : 'var(--text-tertiary)',
+                  color: activeWarningCount ? 'var(--text-primary)' : undefined,
                 }}
               >
                 {activeWarningCount}
-              </span>
-            </div>
-            <div
-              className={`telemetry-status-row${activeInfoCount ? '' : ' telemetry-status-row--muted'}`}
-            >
-              <div
-                className="telemetry-status-label"
-                style={{
-                  color: activeInfoCount ? 'var(--accent-teal)' : 'var(--text-tertiary)',
-                }}
-              >
-                <span
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: '50%',
-                    background: activeInfoCount ? 'var(--accent-teal)' : 'var(--border-color)',
-                  }}
-                />
-                FYI
-              </div>
-              <span
-                style={{
-                  fontWeight: 700,
-                  color: activeInfoCount ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                }}
-              >
-                {activeInfoCount}
               </span>
             </div>
           </div>
@@ -230,13 +203,13 @@ export function TelemetryMetricsPanel({
           <p className="telemetry-node-scope-hint">East / West hubs, gateway & QA path</p>
           <div className="telemetry-status-rows">
             <div className="telemetry-status-row">
-              <div className="telemetry-status-label" style={{ color: 'var(--gv-topology-sm-text)' }}>
+              <div className="telemetry-status-label" style={{ color: 'var(--status-success)' }}>
                 <span
                   style={{
                     width: 8,
                     height: 8,
                     borderRadius: '50%',
-                    background: 'var(--status-success)',
+                    background: 'var(--status-success-dot)',
                   }}
                 />
                 Healthy
@@ -246,7 +219,10 @@ export function TelemetryMetricsPanel({
             <div
               className={`telemetry-status-row${us.urgent ? '' : ' telemetry-status-row--muted'}`}
             >
-              <div className="telemetry-status-label">
+              <div
+                className="telemetry-status-label"
+                style={{ color: us.urgent ? 'var(--status-danger)' : undefined }}
+              >
                 <span
                   style={{
                     width: 8,
@@ -268,7 +244,7 @@ export function TelemetryMetricsPanel({
               <div
                 className="telemetry-status-label"
                 style={{
-                  color: us.elevated ? 'var(--status-warning-text)' : 'var(--text-tertiary)',
+                  color: us.elevated ? 'var(--status-warning-text)' : undefined,
                 }}
               >
                 <span
@@ -284,36 +260,10 @@ export function TelemetryMetricsPanel({
               <span
                 style={{
                   fontWeight: 700,
-                  color: us.elevated ? 'var(--text-primary)' : 'var(--text-tertiary)',
+                  color: us.elevated ? 'var(--text-primary)' : undefined,
                 }}
               >
                 {us.elevated}
-              </span>
-            </div>
-            <div className={`telemetry-status-row${us.fyi ? '' : ' telemetry-status-row--muted'}`}>
-              <div
-                className="telemetry-status-label"
-                style={{
-                  color: us.fyi ? 'var(--accent-teal)' : 'var(--text-tertiary)',
-                }}
-              >
-                <span
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: '50%',
-                    background: us.fyi ? 'var(--accent-teal)' : 'var(--border-color)',
-                  }}
-                />
-                FYI
-              </div>
-              <span
-                style={{
-                  fontWeight: 700,
-                  color: us.fyi ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                }}
-              >
-                {us.fyi}
               </span>
             </div>
           </div>

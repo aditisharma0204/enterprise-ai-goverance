@@ -25,11 +25,6 @@ export function ContentHeader() {
         </div>
         <h1 className="global-page-title">Cluster operations & dependency review</h1>
       </div>
-      <div className="content-actions mc-content-header-actions">
-        <button type="button" className="btn btn-outline">
-          View Agent History
-        </button>
-      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   GLOBAL_MAP_SCOPE_PARAM,
@@ -11,7 +11,6 @@ import { useNaCluster7 } from '../../context/NaCluster7Context'
 import { useGlobalViewAlerts } from '../../hooks/useGlobalViewAlerts'
 import '../../missionControl.css'
 import '../../globalView.css'
-import { IconExpand, IconZoomIn, IconZoomOut } from '../icons/AppIcons'
 import { TrustOpsHeader } from '../shell/TrustOpsHeader'
 import { GlobalAlertSummaryStrip } from './GlobalAlertSummaryStrip'
 import { GlobalSuccessStrip } from './GlobalSuccessStrip'
@@ -25,6 +24,25 @@ import {
 import { AgentClusterModal } from './AgentClusterModal'
 import { ContinentOverviewCanvas } from './ContinentOverviewCanvas'
 import { TopologyCanvas } from './TopologyCanvas'
+
+const MAP_W = 1100
+const MAP_H = 700
+
+function useMapFit(ref: React.RefObject<HTMLDivElement | null>) {
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const update = () => {
+      const sw = el.clientWidth / MAP_W
+      const sh = el.clientHeight / MAP_H
+      el.style.setProperty('--map-fit', String(Math.min(1, sw, sh)))
+    }
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    update()
+    return () => ro.disconnect()
+  }, [ref])
+}
 
 export function GlobalViewPage() {
   const { naCluster7Resolved, restartDemo } = useNaCluster7()
@@ -46,6 +64,8 @@ export function GlobalViewPage() {
   const [telemetryPanel, setTelemetryPanel] = useState<TelemetrySidebarPanel>('metrics')
   const [clusterModalOpen, setClusterModalOpen] = useState(false)
   const focusAlertsAfterBannerCta = useRef(false)
+  const mapShellRef = useRef<HTMLDivElement>(null)
+  useMapFit(mapShellRef)
 
   const {
     alertRows,
@@ -54,10 +74,9 @@ export function GlobalViewPage() {
     activeAlertCount,
     activeCriticalCount,
     activeWarningCount,
-    activeInfoCount,
   } = useGlobalViewAlerts(naCluster7Resolved)
 
-  const healthyCount = naCluster7Resolved ? 22 : 21
+  const healthyCount = naCluster7Resolved ? 43 : 42
 
   useEffect(() => {
     if (telemetryPanel !== 'alerts' || !focusAlertsAfterBannerCta.current) return
@@ -100,7 +119,6 @@ export function GlobalViewPage() {
                 healthyCount={healthyCount}
                 activeCriticalCount={activeCriticalCount}
                 activeWarningCount={activeWarningCount}
-                activeInfoCount={activeInfoCount}
               />
             }
             alertsPanel={
@@ -133,25 +151,12 @@ export function GlobalViewPage() {
                     ? 'AI agents across North America'
                     : 'US hubs & store-field footprint'}
                 </h1>
-                <p className="global-page-subtitle">
-                  {mapScope === 'north-america'
-                    ? 'Where store assistants and digital agents run today — Canada, US, and Mexico.'
-                    : 'East and West auth hubs, gateway, and Agent Cluster 7 (drill down in Mission Control).'}
-                </p>
               </div>
-              {mapScope === 'united-states' ? (
-                <button
-                  type="button"
-                  className="global-scope-back btn btn-outline"
-                  onClick={() => setMapScope('north-america')}
-                >
-                  ← Continent overview
-                </button>
-              ) : null}
+              {/* Back button hidden for demo */}
             </div>
 
             <div className="global-work-area">
-              <div className="global-map-shell gv-grid-bg gv-scrollbar">
+              <div ref={mapShellRef} className="global-map-shell gv-grid-bg">
                 {mapScope === 'north-america' ? (
                   <div key="map-continent" className="global-map-stage global-map-stage--continent">
                     <ContinentOverviewCanvas
@@ -169,23 +174,6 @@ export function GlobalViewPage() {
                 )}
               </div>
 
-              {mapScope === 'united-states' ? (
-                <div className="global-zoom-rail">
-                  <button type="button" className="global-zoom-btn" aria-label="Zoom in">
-                    <IconZoomIn />
-                  </button>
-                  <button type="button" className="global-zoom-btn" aria-label="Zoom out">
-                    <IconZoomOut />
-                  </button>
-                  <button
-                    type="button"
-                    className="global-zoom-btn global-zoom-btn--spaced"
-                    aria-label="Fit view"
-                  >
-                    <IconExpand />
-                  </button>
-                </div>
-              ) : null}
             </div>
           </main>
         </div>

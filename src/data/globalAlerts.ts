@@ -25,44 +25,44 @@ export const GLOBAL_ALERTS: GlobalAlert[] = [
   {
     id: 'ac7-drift',
     severity: 'warning',
-    title: 'Policy drift · Order Processing Agent',
-    description: 'Store & field traffic outside approved guardrails.',
-    region: 'US — stores & field',
+    title: 'Policy drift',
+    description: 'Order Processing Agent',
+    region: 'Agent USW-7',
     clusterLabel: 'Order Processing Agent',
     clusterPath: ROUTES.agentCluster7,
     status: 'open',
-    openedAtLabel: '12 min ago',
+    openedAtLabel: '12m',
   },
   {
     id: 'us-digital-vector',
     severity: 'critical',
-    title: 'Vector index SLO breach',
-    description: 'Embedding lag over 15m; digital retrieval degraded.',
-    region: 'US — digital',
+    title: 'Retrieval degraded',
+    description: 'Digital · vector index',
+    region: 'Digital Commerce',
     clusterLabel: 'Digital · vector',
     clusterPath: ROUTES.agentCluster7,
     status: 'open',
-    openedAtLabel: '28 min ago',
+    openedAtLabel: '28m',
   },
   {
     id: 'us-supply-egress',
     severity: 'warning',
-    title: 'LLM egress spike',
-    description: 'Token volume above 7-day baseline in supply sandbox.',
-    region: 'US — supply chain',
+    title: 'Token egress spike',
+    description: 'Supply · gateway pool',
+    region: 'Supply Chain',
     clusterLabel: 'Supply · gateway pool',
     clusterPath: ROUTES.agentCluster7,
     status: 'acknowledged',
-    openedAtLabel: '1 hr ago',
+    openedAtLabel: '1h',
   },
   {
     id: 'us-corp-gov',
     severity: 'info',
-    title: 'Audit export delayed',
-    description: 'Compliance bundle retrying to secure bucket.',
-    region: 'US — corporate IT',
+    title: 'Export delayed',
+    description: 'Compliance audit bundle',
+    region: 'Corporate IT',
     status: 'open',
-    openedAtLabel: '2 hr ago',
+    openedAtLabel: '2h',
   },
 ]
 
@@ -108,28 +108,3 @@ export function summarizeActiveAlerts(active: GlobalAlert[]): ActiveAlertSummary
   }
 }
 
-export type AlertSeverityFilter = 'all' | AlertSeverity
-
-export function filterAlertsBySeverity(
-  alerts: GlobalAlert[],
-  filter: AlertSeverityFilter,
-): GlobalAlert[] {
-  if (filter === 'all') return alerts
-  return alerts.filter((a) => a.severity === filter)
-}
-
-/** Sidebar filter keys (labels + counts composed in `TelemetryAlertsPanel`). */
-export const TELEMETRY_ALERT_SEVERITY_FILTER_KEYS: AlertSeverityFilter[] = [
-  'all',
-  'critical',
-  'warning',
-  'info',
-]
-
-/** Plain-language priority labels — scannable, not cryptic abbreviations. */
-export function telemetrySeverityFilterLabel(key: AlertSeverityFilter): string {
-  if (key === 'all') return 'All'
-  if (key === 'critical') return 'Urgent'
-  if (key === 'warning') return 'Elevated'
-  return 'FYI'
-}

@@ -65,21 +65,21 @@ export function GraphCanvas() {
     const gInUpper = g.top + (g.bottom - g.top) * 0.38
     const gInLower = g.top + (g.bottom - g.top) * 0.62
 
-    const vecStroke = remediated ? '#cbd5e1' : '#f59e0b'
+    const vecStroke = remediated ? 'var(--edge-default)' : 'var(--edge-alert-warn)'
     const vecDash = remediated ? undefined : '4'
 
     const next: Edge[] = [
       {
         d: `M ${ax} ${ayToLlm} L ${llmInX} ${llmCy}`,
-        stroke: '#cbd5e1',
+        stroke: 'var(--edge-default)',
       },
       {
         d: `M ${ax} ${ayToVec} L ${vecInX} ${vecCy}`,
-        stroke: '#cbd5e1',
+        stroke: 'var(--edge-default)',
       },
       {
         d: `M ${llmOutX} ${llmCy} L ${gx} ${gInUpper}`,
-        stroke: '#cbd5e1',
+        stroke: 'var(--edge-default)',
       },
       {
         d: `M ${vecOutX} ${vecCy} L ${gx} ${gInLower}`,

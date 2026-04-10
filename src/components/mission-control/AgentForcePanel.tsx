@@ -312,7 +312,12 @@ export function AgentForcePanel() {
     <div className="af-panel">
       <div className={`af-header af-header--${headerStatus}`}>
         <div className="af-header-left">
-          <span className="af-logo" aria-hidden>⚡</span>
+          <img
+            className="af-logo"
+            src={`${import.meta.env.BASE_URL}agentforce-icon.png`}
+            alt=""
+            aria-hidden
+          />
           <span className="af-brand">Agentforce</span>
         </div>
         <div className="af-header-right">

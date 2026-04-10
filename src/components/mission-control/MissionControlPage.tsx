@@ -8,7 +8,6 @@ import { AgentForcePanel } from './AgentForcePanel'
 import { EdgeTrafficView } from './EdgeTrafficView'
 import { GraphCanvas } from './GraphCanvas'
 // import { InvestigationModeTabs } from './InvestigationModeTabs'
-import { LiveStatusStrip } from './LiveStatusStrip'
 import {
   MissionClusterProvider,
   useMissionCluster,
@@ -36,8 +35,6 @@ function MissionControlBody() {
 
           <main className="content-area">
             <ContentHeader />
-
-            <LiveStatusStrip />
 
             <div className="workspace">
               <div className="workspace-main">

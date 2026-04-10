@@ -96,18 +96,7 @@ function deriveVisuals(phase: ClusterPhase) {
 }
 
 export function BlastRadiusGraph() {
-  const { liveTick, clusterPhase } = useMissionCluster()
-
-  const sessionBurst = clusterPhase === 'healthy'
-    ? 1200 + liveTick * 14
-    : clusterPhase === 'traffic-stopped' || clusterPhase === 'retraining' || clusterPhase === 'retrain-complete' || clusterPhase === 'deploying'
-      ? 42 + liveTick * 2
-      : 1200 + liveTick * 14
-  const tokenRate = clusterPhase === 'healthy'
-    ? '1.1M/m'
-    : clusterPhase === 'traffic-stopped' || clusterPhase === 'retraining' || clusterPhase === 'retrain-complete'
-      ? '0.02M/m'
-      : `${(2.1 + (liveTick % 4) * 0.04).toFixed(2)}M/m`
+  const { clusterPhase } = useMissionCluster()
 
   const { n, e } = deriveVisuals(clusterPhase)
 
@@ -119,16 +108,7 @@ export function BlastRadiusGraph() {
         conversation phase.
       </p>
       <div className="blast-canvas-head">
-        <div className="blast-canvas-title">Service Graph</div>
-        <div className="blast-canvas-meta">
-          <span>
-            Open sessions <strong>{sessionBurst.toLocaleString()}</strong>
-          </span>
-          <span className="blast-meta-sep">|</span>
-          <span>
-            Cross-boundary token rate <strong>{tokenRate}</strong>
-          </span>
-        </div>
+        <div className="blast-canvas-title">Service Graph USW-7</div>
       </div>
       <div className="blast-map-wrap mc-scroll">
         <div className="blast-map">
@@ -224,21 +204,24 @@ function Edge({
   let animated = false
   let dashArray = dashed ? '5 4' : undefined
 
+  const css = getComputedStyle(document.documentElement)
+  const tok = (name: string) => css.getPropertyValue(name).trim()
+
   switch (visual) {
     case 'alert':
-      color = '#fecaca'; width = 2.5; animated = true; break
+      color = tok('--edge-alert') || '#fecaca'; width = 2.5; animated = true; break
     case 'alert-warn':
-      color = '#f59e0b'; width = 2.5; animated = true; break
+      color = tok('--edge-alert-warn') || '#f59e0b'; width = 2.5; animated = true; break
     case 'muted':
-      color = '#374151'; width = 1.5; break
+      color = tok('--edge-muted') || '#374151'; width = 1.5; break
     case 'dim':
-      color = '#1f2937'; width = 1; dashArray = '4 6'; break
+      color = tok('--edge-dark') || '#1f2937'; width = 1; dashArray = '4 6'; break
     case 'processing':
-      color = '#38bdf8'; width = 2; animated = true; break
+      color = tok('--edge-processing') || '#38bdf8'; width = 2; animated = true; break
     case 'healthy':
-      color = '#34d399'; width = 2; break
+      color = tok('--gv-cluster-dot-healthy') || '#34d399'; width = 2; break
     default:
-      color = '#4b5563'; width = 2; break
+      color = tok('--gv-topology-sm-text') || '#4b5563'; width = 2; break
   }
 
   return (

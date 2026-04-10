@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import { ROUTES } from '../../constants/routes'
 import { useNaCluster7 } from '../../context/NaCluster7Context'
+import { useTheme } from '../../context/ThemeContext'
 
 type NavItem = {
   id: string
@@ -12,9 +13,6 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', to: null },
-  { id: 'mission', label: 'Mission Control', to: ROUTES.agentCluster7, badge: 'alert' },
-  { id: 'governance', label: 'Governance', to: null },
-  { id: 'compliance', label: 'Compliance Reports', to: null },
 ]
 
 function LogoBolt() {
@@ -36,8 +34,30 @@ function LogoBolt() {
   )
 }
 
+function SunIcon() {
+  return (
+    <svg className="theme-toggle-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+      <path
+        fillRule="evenodd"
+        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+        clipRule="evenodd"
+      />
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg className="theme-toggle-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+    </svg>
+  )
+}
+
 export function TrustOpsHeader() {
   const { naCluster7Resolved, restartDemo } = useNaCluster7()
+  const { theme, toggleTheme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
     <header className="app-header">
@@ -46,7 +66,7 @@ export function TrustOpsHeader() {
           <div className="logo-icon logo-icon--mark">
             <LogoBolt />
           </div>
-          TrustOps AI
+          AI Mission Control
         </Link>
         <nav className="header-nav" aria-label="Primary">
           {NAV_ITEMS.map((item) => {
@@ -94,9 +114,18 @@ export function TrustOpsHeader() {
         >
           Restart demo
         </button>
-        <div className="metric-pill">System Trust Score: 98.7%</div>
-        <button type="button" className="btn btn-primary btn-header">
-          Global Settings
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+        >
+          <SunIcon />
+          <span className={`theme-toggle-track${isDark ? ' theme-toggle-track--dark' : ''}`}>
+            <span className="theme-toggle-thumb" />
+          </span>
+          <MoonIcon />
         </button>
       </div>
     </header>

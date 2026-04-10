@@ -99,20 +99,20 @@ export function ContinentOverviewCanvas({
                   {isAc7 ? (
                     <circle
                       className="continent-cluster-hit"
-                      r={22}
+                      r={280}
                       fill="transparent"
                       stroke="none"
                     />
                   ) : null}
                   {c.status === 'urgent' && !incidentResolved ? (
-                    <circle className="continent-cluster-pulse" r={28} />
+                    <circle className="continent-cluster-pulse" r={340} />
                   ) : null}
                   <circle
                     className={`continent-cluster-dot continent-cluster-dot--${c.status}`}
-                    r={c.status === 'urgent' ? 9 : 7}
+                    r={c.status === 'urgent' ? 110 : 85}
                     pointerEvents={isAc7 ? 'none' : 'auto'}
                   />
-                  <title>{`${c.label} · ${c.status === 'healthy' ? 'Healthy' : c.status === 'urgent' ? 'Urgent' : c.status === 'elevated' ? 'Elevated' : 'FYI'}${isAc7 ? '. Click to open Mission Control.' : ''}`}</title>
+                  <title>{`${c.label} · ${c.status === 'healthy' ? 'Healthy' : c.status === 'urgent' ? 'Urgent' : c.status === 'elevated' ? 'Elevated' : 'Info'}${isAc7 ? '. Click to open Mission Control.' : ''}`}</title>
                 </g>
               )
             })}
@@ -120,38 +120,6 @@ export function ContinentOverviewCanvas({
         </g>
       </svg>
 
-      <div className="continent-legend" aria-hidden>
-        <span className="continent-legend-item">
-          <span className="continent-legend-dot continent-legend-dot--ok" /> Healthy
-        </span>
-        <span className="continent-legend-item">
-          <span className="continent-legend-dot continent-legend-dot--urgent" /> Urgent
-        </span>
-        <span className="continent-legend-item">
-          <span className="continent-legend-dot continent-legend-dot--elevated" /> Elevated
-        </span>
-        <span className="continent-legend-item">
-          <span className="continent-legend-dot continent-legend-dot--info" /> FYI
-        </span>
-        {!incidentResolved ? (
-          <span className="continent-legend-item continent-legend-item--emphasis">
-            Agent Cluster 7 — click for Mission Control
-          </span>
-        ) : (
-          <span className="continent-legend-item">All clusters within policy</span>
-        )}
-      </div>
-
-      <div className="continent-map-hint" role="note">
-        <p className="continent-map-hint-line">
-          <strong>United States:</strong> click the map to zoom in to East / West
-          hubs and gateways — zoom controls then appear on the right.
-        </p>
-        <p className="continent-map-hint-line">
-          <strong>Agent Cluster 7:</strong> click the marker (or use Mission Control
-          in the header) to triage the active alert.
-        </p>
-      </div>
     </div>
   )
 }

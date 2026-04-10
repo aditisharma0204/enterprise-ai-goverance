@@ -1,6 +1,6 @@
 /* Dark theme: overrides `.mission-root` tokens when `data-theme="dark"` is set on `<html>`.
-   Linear-inspired: near-black base, subtle surface steps, soft borders (value > outline),
-   tertiary text bright enough for small UI copy (~WCAG AA on default surfaces). */
+   Palette aligned to the Agentforce panel aesthetic — deep blue-black base,
+   blue-tinted neutrals, Salesforce #066AFE as primary accent. */
 
 [data-theme='dark'] {
   color-scheme: dark;
@@ -8,100 +8,120 @@
 
 [data-theme='dark'] body,
 [data-theme='dark'] #root {
-  background-color: #09090b;
+  background-color: #101018;
 }
 
 [data-theme='dark'] .mission-root {
-  /* Chrome — one step above canvas so header feels “in” the app, not pasted on */
-  --header-bg: #0c0c0e;
-  --header-pill-bg: #17171b;
-  --header-pill-text: #94949d;
-  --header-pill-active: #ebebef;
-  --header-pill-active-bg: #26262c;
+  --header-bg: #101018;
+  --header-pill-bg: #1e1e2a;
+  --header-pill-text: #9d9db5;
+  --header-pill-active: #e4e4ec;
+  --header-pill-active-bg: #2a2a3c;
 
-  /* Background ladder: smallest jump between steps = calmer, Linear-like */
-  --bg-app: #09090b;
-  --bg-main: #0f0f12;
-  --surface: #151518;
-  --surface-elevated: #1b1b1f;
+  --bg-app: #101018;
+  --bg-main: #16161e;
+  --surface: #1e1e2a;
+  --surface-elevated: #252535;
 
-  /* Text: primary soft-white; secondary/meta; tertiary for captions (readable at ~11–12px) */
-  --text-primary: #ebebef;
-  --text-secondary: #a1a1aa;
-  --text-tertiary: #94949e;
+  --text-primary: #e4e4ec;
+  --text-secondary: #9d9db5;
+  --text-tertiary: #8c8ca8;
+  --text-accent: #7CB1FE;
 
-  /* Borders: low-contrast hairlines — separation from luminance, not heavy rules */
-  --border-color: rgba(255, 255, 255, 0.09);
-  --border-light: rgba(255, 255, 255, 0.05);
+  --border-color: #2a2a3c;
+  --border-light: #222234;
 
-  --accent-teal: #5cb39e;
-  --accent-teal-hover: #6fc4ae;
-  --accent-teal-bg: rgba(92, 179, 158, 0.12);
+  --accent-teal: #4488ff;
+  --accent-teal-hover: #5599ff;
+  --accent-teal-bg: rgba(68, 136, 255, 0.10);
 
   --status-success: #34d399;
-  --status-success-bg: rgba(52, 211, 153, 0.12);
+  --status-success-bg: rgba(52, 211, 153, 0.10);
   --status-success-text: #6ee7b7;
+  --status-success-dot: #34d399;
 
   --status-warning: #fbbf24;
-  --status-warning-bg: rgba(251, 191, 36, 0.12);
-  --status-warning-text: #fcd34d;
+  --status-warning-bg: rgba(251, 191, 36, 0.10);
+  --status-warning-text: #fde68a;
 
-  --status-danger: #f87171;
-  --status-danger-bg: rgba(248, 113, 113, 0.12);
+  --status-danger: #f06565;
+  --status-danger-bg: rgba(240, 101, 101, 0.10);
   --status-danger-text: #fca5a5;
 
-  --node-alert-bg: #2a2418;
-  --range-track-mute: rgba(255, 255, 255, 0.1);
-  --toggle-track-off: rgba(255, 255, 255, 0.16);
-  --shadow-soft: rgba(0, 0, 0, 0.45);
-  --shadow-medium: rgba(0, 0, 0, 0.55);
+  --trend-up: #34d399;
+  --live-dot: #34d399;
 
-  --scrollbar-track: #0f0f12;
-  --scrollbar-thumb: rgba(255, 255, 255, 0.14);
-  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.22);
+  --node-alert-bg: #2a1a0a;
+  --range-track-mute: rgba(255, 255, 255, 0.08);
+  --toggle-track-off: rgba(255, 255, 255, 0.14);
+  --shadow-soft: rgba(0, 0, 0, 0.5);
+  --shadow-medium: rgba(0, 0, 0, 0.6);
 
-  --gv-grid-dot: rgba(255, 255, 255, 0.06);
+  --scrollbar-track: #16161e;
+  --scrollbar-thumb: #333348;
+  --scrollbar-thumb-hover: #444460;
 
-  --deploy-header-bg: #0f2419;
-  --deploy-header-border: rgba(52, 211, 153, 0.35);
+  --gv-grid-dot: rgba(255, 255, 255, 0.05);
+
+  --deploy-header-bg: #0f1e14;
+  --deploy-header-border: rgba(52, 211, 153, 0.3);
   --deploy-title: #6ee7b7;
-  --deploy-card-g1: #0f2419;
-  --deploy-card-g2: #132a1e;
-  --deploy-card-border: rgba(52, 211, 153, 0.35);
-  --deploy-card-shadow: rgba(52, 211, 153, 0.15);
-  --deploy-lead: #a7f3d0;
-  --deploy-code-bg: rgba(0, 0, 0, 0.28);
-  --deploy-code-border: rgba(52, 211, 153, 0.35);
+  --deploy-card-g1: #0f1e14;
+  --deploy-card-g2: #142a18;
+  --deploy-card-border: rgba(52, 211, 153, 0.3);
+  --deploy-card-shadow: rgba(52, 211, 153, 0.12);
+  --deploy-lead: #6ee7b7;
+  --deploy-code-bg: rgba(0, 0, 0, 0.3);
+  --deploy-code-border: rgba(52, 211, 153, 0.3);
 
-  --strip-alert-bg: #2a2312;
-  --strip-alert-border: rgba(251, 191, 36, 0.35);
+  --strip-alert-bg: #2a1a0a;
+  --strip-alert-border: rgba(251, 191, 36, 0.3);
   --strip-alert-title: #fde68a;
-  --strip-alert-desc: #fcd34d;
-  --strip-alert-dot-ring: #78350f;
-  --strip-alert-cta-bg: #d97706;
-  --strip-alert-cta-hover: #f59e0b;
+  --strip-alert-desc: #fbbf24;
+  --strip-alert-dot-ring: #3d2800;
+  --strip-alert-cta-bg: #ca8501;
+  --strip-alert-cta-hover: #e4a201;
 
-  --strip-success-a: #0f2419;
-  --strip-success-b: #132a1e;
-  --strip-success-border: rgba(52, 211, 153, 0.35);
+  --strip-success-a: #0f1e14;
+  --strip-success-b: #142a18;
+  --strip-success-border: rgba(52, 211, 153, 0.3);
   --strip-success-cta-surface: var(--surface);
   --strip-success-cta-hover: var(--surface-elevated);
-  --strip-success-restart-bg: rgba(255, 255, 255, 0.06);
+  --strip-success-restart-bg: rgba(255, 255, 255, 0.05);
 
-  --global-window-shadow: rgba(0, 0, 0, 0.55);
-  --global-window-outline: rgba(255, 255, 255, 0.08);
+  --global-window-shadow: rgba(0, 0, 0, 0.6);
+  --global-window-outline: #2a2a3c;
 
-  --gv-gateway-bg: #1a1a1f;
-  --gv-gateway-border: rgba(255, 255, 255, 0.12);
-  --gv-gateway-sub: #a1a1aa;
-  --gv-crumb-sep: rgba(255, 255, 255, 0.14);
-  --gv-btn-secondary-text: #c4c4cc;
-  --gv-topology-sm-text: #a1a1aa;
-  --gv-topology-router-title: #ebebef;
-  --gv-topology-router-sub: #a1a1aa;
-  --gv-zoom-icon: #94949e;
+  --gv-gateway-bg: #1e1e2a;
+  --gv-gateway-border: #333348;
+  --gv-gateway-sub: #9d9db5;
+  --gv-crumb-sep: #333348;
+  --gv-btn-secondary-text: #c4c4d8;
+  --gv-topology-sm-text: #9d9db5;
+  --gv-topology-router-title: #e4e4ec;
+  --gv-topology-router-sub: #9d9db5;
+  --gv-zoom-icon: #7a7a94;
 
-  --blast-warn-border: #ca8a04;
+  --blast-warn-border: #ca8501;
+
+  --edge-default: #333348;
+  --edge-dim: rgba(255, 255, 255, 0.06);
+  --edge-healthy: #34d399;
+  --edge-alert: rgba(240, 101, 101, 0.45);
+  --edge-alert-warn: #e4a201;
+  --edge-muted: #7a7a94;
+  --edge-dark: #9d9db5;
+  --edge-processing: #38bdf8;
+  --status-info: #57a3fd;
+
+  --gv-cluster-dot-healthy: #34d399;
+  --gv-cluster-dot-warn: #fbbf24;
+  --gv-cluster-dot-alert: #e4a201;
+  --gv-cluster-dot-warn-border: #ca8501;
+
+  --alert-sev-critical: #f06565;
+  --alert-sev-warning: #fbbf24;
+  --alert-sev-info: #34d399;
 }
 
 [data-theme='dark'] .mission-root .btn-primary {
@@ -118,12 +138,12 @@
 }
 
 [data-theme='dark'] .topology-us-shape-accent {
-  stroke: rgba(92, 179, 158, 0.24);
+  stroke: rgba(68, 136, 255, 0.2);
 }
 
 [data-theme='dark'] .topology-us-tag {
-  background: rgba(21, 21, 24, 0.78);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(22, 22, 30, 0.8);
+  border-color: #2a2a3c;
 }
 
 [data-theme='dark'] .continent-map-layer {
@@ -131,7 +151,7 @@
 }
 
 [data-theme='dark'] .continent-cluster-dot {
-  stroke: rgba(15, 15, 18, 0.92);
+  stroke: rgba(16, 16, 24, 0.92);
 }
 
 [data-theme='dark'] .continent-map-hint {
@@ -146,4 +166,3 @@
 [data-theme='dark'] .continent-map-hint-line strong {
   color: var(--text-primary);
 }
-

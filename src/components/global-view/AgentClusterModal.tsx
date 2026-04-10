@@ -96,15 +96,15 @@ export function AgentClusterModal({ open, onClose, incidentResolved }: Props) {
         ref={dialogRef}
         className="cluster-modal"
         role="dialog"
-        aria-label="Agent Cluster 7"
+        aria-label="Agent USW-7"
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="cluster-modal-header">
           <div>
-            <h2 className="cluster-modal-title">Agent Cluster 7</h2>
+            <h2 className="cluster-modal-title">Agent USW-7</h2>
             <p className="cluster-modal-subtitle">
-              US East hub · {agents.length} agents
+              US West hub · {agents.length} agents
               {!incidentResolved && criticalCount > 0 ? (
                 <span className="cluster-modal-badge cluster-modal-badge--critical">
                   {criticalCount} critical

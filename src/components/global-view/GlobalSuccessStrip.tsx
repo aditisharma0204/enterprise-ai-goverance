@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom'
-import { ROUTES } from '../../constants/routes'
-import { IconChevronRight, IconRestart } from '../icons/AppIcons'
+// import { Link } from 'react-router-dom'
+// import { ROUTES } from '../../constants/routes'
+// import { IconChevronRight, IconRestart } from '../icons/AppIcons'
 
 type Props = {
   onRestartDemo: () => void
 }
 
-export function GlobalSuccessStrip({ onRestartDemo }: Props) {
+export function GlobalSuccessStrip({ onRestartDemo: _onRestartDemo }: Props) {
   return (
     <div className="global-success-strip">
       <div className="global-success-left">
@@ -21,16 +21,7 @@ export function GlobalSuccessStrip({ onRestartDemo }: Props) {
           </span>
         </div>
       </div>
-      <div className="global-success-actions">
-        <button type="button" className="global-demo-restart-btn" onClick={onRestartDemo}>
-          <IconRestart />
-          Run demo again
-        </button>
-        <Link to={ROUTES.agentCluster7} className="global-success-cta">
-          View cluster
-          <IconChevronRight />
-        </Link>
-      </div>
+      {/* Actions hidden for demo: restart + view cluster */}
     </div>
   )
 }

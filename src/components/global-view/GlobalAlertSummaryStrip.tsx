@@ -52,7 +52,7 @@ export function GlobalAlertSummaryStrip({ summary, onOpenAlertsSidebar }: Props)
       </div>
       <div className="global-alert-summary-actions">
         <button type="button" className="global-alert-cta" onClick={onOpenAlertsSidebar}>
-          View alerts in sidebar
+          View alerts
           <IconChevronRight />
         </button>
       </div>
