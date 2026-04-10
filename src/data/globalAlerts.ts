@@ -71,9 +71,7 @@ export function withCluster7Resolved(
   naCluster7Resolved: boolean,
 ): GlobalAlert[] {
   if (!naCluster7Resolved) return alerts
-  return alerts.map((a) =>
-    a.id === 'ac7-drift' ? { ...a, status: 'resolved' as const } : a,
-  )
+  return alerts.map((a) => ({ ...a, status: 'resolved' as const }))
 }
 
 export function isAlertActive(a: GlobalAlert): boolean {
