@@ -16,8 +16,7 @@ export function GlobalSuccessStrip({ onRestartDemo: _onRestartDemo }: Props) {
         <div className="global-success-text-row">
           <span className="global-success-title">Order Processing Agent · Stable</span>
           <span className="global-success-desc">
-            Remediation is live in US production. Topology and telemetry reflect
-            normal policy alignment.
+            The fix has been deployed. All US agents are running normally and following policy.
           </span>
         </div>
       </div>
