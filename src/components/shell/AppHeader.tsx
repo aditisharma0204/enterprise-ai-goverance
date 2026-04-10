@@ -1,19 +1,7 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ROUTES } from '../../constants/routes'
 import { useNaCluster7 } from '../../context/NaCluster7Context'
 import { useTheme } from '../../context/ThemeContext'
-
-type NavItem = {
-  id: string
-  label: string
-  to: string
-  badge?: 'alert'
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { id: 'global', label: 'Global View', to: ROUTES.home },
-  { id: 'mission', label: 'Mission Control', to: ROUTES.agentCluster7 },
-]
 
 function LogoBolt() {
   return (
@@ -55,7 +43,7 @@ function MoonIcon() {
 }
 
 export function AppHeader() {
-  const { naCluster7Resolved, restartDemo } = useNaCluster7()
+  const { restartDemo } = useNaCluster7()
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
 
@@ -68,27 +56,6 @@ export function AppHeader() {
           </div>
           AI Mission Control
         </Link>
-        <nav className="header-nav" aria-label="Primary">
-          {NAV_ITEMS.map((item) => {
-            const badge =
-              item.badge === 'alert' && item.id === 'mission' && naCluster7Resolved ? (
-                <span className="nav-pill-badge nav-pill-badge--clear">Stable</span>
-              ) : item.badge === 'alert' ? (
-                <span className="nav-pill-badge nav-pill-badge--amber">Alert</span>
-              ) : null
-
-            return (
-              <NavLink
-                key={item.id}
-                to={item.to}
-                className={({ isActive }) => `nav-pill${isActive ? ' active' : ''}`}
-              >
-                {item.label}
-                {badge}
-              </NavLink>
-            )
-          })}
-        </nav>
       </div>
       <div className="header-right">
         <button
