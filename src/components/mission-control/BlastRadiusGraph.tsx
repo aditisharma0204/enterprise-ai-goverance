@@ -122,7 +122,7 @@ export function BlastRadiusGraph() {
     <div className="blast-canvas">
       <p className="sr-only">
         Agent cluster dependency graph showing Order Processing Agent and connected
-        agents, services, and users. Visual state reflects the current Agentforce
+        agents, services, and users. Visual state reflects the current Mission Control Agent
         conversation phase.
       </p>
       <div className="blast-canvas-head">

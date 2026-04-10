@@ -23,7 +23,7 @@ const NaCluster7Context = createContext<NaCluster7ContextValue | null>(null)
 
 function readStored(): boolean {
   if (typeof window === 'undefined') return false
-  return localStorage.getItem(STORAGE_KEY) === '1'
+  return localStorage.getItem(STORAGE_KEY) === '1' || localStorage.getItem('trustops_na_cluster7_resolved') === '1'
 }
 
 export function NaCluster7Provider({ children }: { children: ReactNode }) {
@@ -51,8 +51,9 @@ export function NaCluster7Provider({ children }: { children: ReactNode }) {
   const restartDemo = useCallback(() => {
     try {
       localStorage.removeItem(STORAGE_KEY)
+      localStorage.removeItem('trustops_na_cluster7_resolved')
     } catch {
-      /* ignore private mode / quota */
+      /* private mode */
     }
     const onHome =
       window.location.pathname === '/' || window.location.pathname === ''

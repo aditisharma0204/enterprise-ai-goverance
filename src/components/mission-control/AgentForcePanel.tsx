@@ -17,18 +17,18 @@ interface ChatMessage {
 }
 
 const POLICY_CLAUSE =
-  '§4.2 Domain Boundaries — This agent may only answer questions about its assigned topic (order processing). If a customer asks about something else, the agent must politely decline instead of answering.'
+  '§4.2 — Agent must stay within its assigned domain.'
 
 const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: 'af-1',
     role: 'agent',
-    body: 'The Order Processing Agent is answering questions it shouldn\'t — a customer asked about electrical wiring and got a response instead of being redirected. This is happening about 3 times per minute.',
+    body: 'Order Processing Agent broke policy — answering off-topic questions (3/min).',
     policyRef: POLICY_CLAUSE,
     metrics: [
-      { label: 'People/hr exposed', value: '~18.2K' },
-      { label: 'Apps degraded', value: '4' },
-      { label: 'Revenue drag (est.)', value: '~0.04%' },
+      { label: 'Users exposed/hr', value: '18.2K' },
+      { label: 'Apps affected', value: '4' },
+      { label: 'Revenue impact', value: '0.04%' },
     ],
   },
 ]
@@ -42,16 +42,16 @@ interface Turn {
 const TURNS: Turn[] = [
   {
     userText: 'What are my options?',
-    thinkMs: 1800,
+    thinkMs: 1500,
     responses: [
       {
         id: 'af-2',
         role: 'agent',
         body: 'I recommend three steps:',
         actions: [
-          { id: 'add-data', label: '1. Add to eval dataset — capture failing interactions as new test cases' },
-          { id: 'retrain', label: '2. Retrain agent — run evals against the updated dataset' },
-          { id: 'launch', label: '3. Relaunch agent — deploy the retrained version to production' },
+          { id: 'add-data', label: '1. Capture — save the 3 failing interactions as eval test cases' },
+          { id: 'retrain', label: '2. Retrain — re-run the agent against the updated eval suite' },
+          { id: 'launch', label: '3. Deploy — push the fixed agent back to production' },
         ],
       },
       {
@@ -63,7 +63,7 @@ const TURNS: Turn[] = [
   },
   {
     userText: 'Stop all traffic to Order Processing Agent',
-    thinkMs: 1200,
+    thinkMs: 1500,
     responses: [
       {
         id: 'af-3',
@@ -75,13 +75,13 @@ const TURNS: Turn[] = [
     ],
   },
   {
-    userText: 'Add the failing interactions to the eval dataset and retrain',
-    thinkMs: 1000,
+    userText: 'Capture the failures and retrain against the eval suite',
+    thinkMs: 1500,
     responses: [
       {
         id: 'af-4a',
         role: 'status',
-        body: 'Adding 3 flagged interactions to eval dataset…',
+        body: 'Saving 3 flagged interactions as eval test cases…',
         statusType: 'progress',
         progressPct: 100,
         phaseEffect: 'retraining',
@@ -89,38 +89,38 @@ const TURNS: Turn[] = [
       {
         id: 'af-4b',
         role: 'status',
-        body: '✓ Dataset updated — 3 cases added',
+        body: '✓ 3 test cases added to eval suite',
         statusType: 'success',
       },
       {
         id: 'af-4c',
         role: 'status',
-        body: 'Starting retrain against updated evals…',
+        body: 'Retraining agent with production feedback + updated eval suite…',
         statusType: 'progress',
         progressPct: 100,
       },
       {
         id: 'af-4d',
         role: 'status',
-        body: '✓ Retrain complete — policy compliance: 98.4% (was 91.2%)',
+        body: '✓ Retrain complete — eval pass rate: 98.4% (was 91.2%)',
         statusType: 'success',
         phaseEffect: 'retrain-complete',
       },
       {
         id: 'af-5',
         role: 'agent',
-        body: 'Warning rate dropped to 0/min on the test slice. Ready to relaunch. Should I deploy to production?',
+        body: 'All eval tests passing — 0 policy violations on the test slice. Ready to deploy. Push to production?',
       },
     ],
   },
   {
     userText: 'Yes, launch it',
-    thinkMs: 800,
+    thinkMs: 1500,
     responses: [
       {
         id: 'af-6a',
         role: 'status',
-        body: 'Deploying retrained agent to production…',
+        body: 'Deploying retrained agent (based on eval results) to production…',
         statusType: 'progress',
         progressPct: 100,
         phaseEffect: 'deploying',
@@ -135,7 +135,7 @@ const TURNS: Turn[] = [
       {
         id: 'af-7',
         role: 'agent',
-        body: 'Traffic restored to 100%. Order Processing Agent is active and monitoring for new warnings. No further action required.',
+        body: 'Traffic restored to 100%. Retrained agent is live and passing all evals. Monitoring continues for new violations.',
       },
     ],
   },
@@ -255,13 +255,16 @@ export function AgentForcePanel() {
 
       for (let i = 0; i < turn.responses.length; i++) {
         const msg = turn.responses[i]
-        if (i > 0 && (msg.statusType === 'success' || msg.role === 'agent')) {
-          await new Promise((r) => setTimeout(r, 800))
-        } else if (i > 0) {
-          await new Promise((r) => setTimeout(r, 400))
+        if (i > 0) {
+          setThinking(true)
+          await new Promise((r) => setTimeout(r, 1500))
+          setThinking(false)
         }
         setMessages((prev) => [...prev, msg])
-        applyMsgEffect(msg.phaseEffect)
+        if (msg.phaseEffect) {
+          await new Promise((r) => setTimeout(r, 1500))
+          applyMsgEffect(msg.phaseEffect)
+        }
       }
 
       setTurnIdx(idx + 1)
@@ -318,7 +321,7 @@ export function AgentForcePanel() {
             alt=""
             aria-hidden
           />
-          <span className="af-brand">Agentforce</span>
+          <span className="af-brand">Mission Control Agent</span>
         </div>
         <div className="af-header-right">
           <span className={`af-status-chip af-status-chip--${headerStatus}`}>
@@ -419,8 +422,8 @@ export function AgentForcePanel() {
               done
                 ? 'Session complete'
                 : busy
-                  ? 'Agentforce is responding…'
-                  : 'Ask Agentforce…'
+                  ? 'Mission Control Agent is responding…'
+                  : 'Ask Mission Control Agent…'
             }
             value={inputValue}
             readOnly

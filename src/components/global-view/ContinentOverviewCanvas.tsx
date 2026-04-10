@@ -1,13 +1,10 @@
 import { type KeyboardEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   NA_MAP_IMG_HEIGHT,
   NA_MAP_IMG_WIDTH,
-  US_MAP_HIT_PATH,
   naClusterStatuses,
   naMapContentGroupTransform,
 } from '../../data/naClusterMarkers'
-import { ROUTES } from '../../constants/routes'
 
 type Props = {
   /** US cluster healthy after demo resolution */
@@ -28,21 +25,19 @@ function keyActivate(e: KeyboardEvent, action: () => void): void {
 
 /**
  * North America basemap (PNG in /public) with agent clusters in image pixel space.
- * Open U.S. hubs by clicking the contiguous United States; open Mission Control from Order Processing Agent.
+ * Click the alert cluster dot to zoom into the US hub topology map.
  */
 export function ContinentOverviewCanvas({
   incidentResolved = false,
   onOpenUnitedStates,
 }: Props) {
-  const navigate = useNavigate()
   const clusters = naClusterStatuses(incidentResolved)
 
   return (
     <div className="global-continent-scale">
       <p className="sr-only">
-        North America map with twenty-two agent cluster markers. Click the United
-        States region to open the U.S. hub map. Click Order Processing Agent to open Mission
-        Control.
+        North America map with twenty-two agent cluster markers. Click the alert marker
+        to zoom into the United States hub map.
       </p>
 
       <svg
@@ -63,22 +58,9 @@ export function ContinentOverviewCanvas({
             />
           </g>
 
-          <path
-            className="continent-country-hit continent-country-hit--us"
-            d={US_MAP_HIT_PATH}
-            fill="rgba(0,0,0,0)"
-            stroke="none"
-            tabIndex={0}
-            role="button"
-            aria-label="United States — open U.S. hub map"
-            onClick={onOpenUnitedStates}
-            onKeyDown={(e) => keyActivate(e, onOpenUnitedStates)}
-          />
-
           <g className="continent-clusters">
             {clusters.map((c) => {
               const isAc7 = c.id === AC7_ID
-              const openMissionControl = () => navigate(ROUTES.agentCluster7)
 
               return (
                 <g
@@ -87,12 +69,12 @@ export function ContinentOverviewCanvas({
                   transform={`translate(${c.cx} ${c.cy})`}
                   {...(isAc7
                     ? {
-                        role: 'link' as const,
+                        role: 'button' as const,
                         tabIndex: 0,
-                        'aria-label': `${c.label}. Open Mission Control.`,
-                        onClick: openMissionControl,
+                        'aria-label': `${c.label}. Zoom into United States hub map.`,
+                        onClick: onOpenUnitedStates,
                         onKeyDown: (e: KeyboardEvent) =>
-                          keyActivate(e, openMissionControl),
+                          keyActivate(e, onOpenUnitedStates),
                       }
                     : {})}
                 >
@@ -112,7 +94,7 @@ export function ContinentOverviewCanvas({
                     r={c.status === 'urgent' ? 110 : 85}
                     pointerEvents={isAc7 ? 'none' : 'auto'}
                   />
-                  <title>{`${c.label} · ${c.status === 'healthy' ? 'Healthy' : c.status === 'urgent' ? 'Urgent' : c.status === 'elevated' ? 'Warning' : 'Info'}${isAc7 ? '. Click to open Mission Control.' : ''}`}</title>
+                  <title>{`${c.label} · ${c.status === 'healthy' ? 'Healthy' : c.status === 'urgent' ? 'Urgent' : c.status === 'elevated' ? 'Warning' : 'Info'}${isAc7 ? '. Click to zoom into US map.' : ''}`}</title>
                 </g>
               )
             })}
