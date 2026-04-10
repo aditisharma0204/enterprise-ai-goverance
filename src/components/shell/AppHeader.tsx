@@ -54,7 +54,7 @@ export function AppHeader() {
           <div className="logo-icon logo-icon--mark">
             <LogoBolt />
           </div>
-          AI Mission Control
+          Agentic Mission Control
         </Link>
       </div>
       <div className="header-right">

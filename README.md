@@ -1,4 +1,4 @@
-# AI Mission Control — Enterprise AI Governance
+# Agentic Mission Control — Enterprise AI Governance
 
 A command-center UI for monitoring, governing, and remediating AI agent clusters in production. Built for IT director-level operators managing enterprise AI deployments.
 
@@ -6,7 +6,7 @@ A command-center UI for monitoring, governing, and remediating AI agent clusters
 
 ## What it does
 
-AI Mission Control provides real-time observability across a fleet of AI agents deployed in production. The demo scenario walks through an incident where an Order Processing Agent breaches its domain policy, and an operator uses the **Agentforce** conversational panel to triage, remediate, and redeploy.
+Agentic Mission Control provides real-time observability across a fleet of AI agents deployed in production. The demo scenario walks through an incident where an Order Processing Agent breaches its domain policy, and an operator uses the **Agentforce** conversational panel to triage, remediate, and redeploy.
 
 ### Key screens
 
