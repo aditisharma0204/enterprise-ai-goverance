@@ -1,0 +1,149 @@
+/* Dark theme: overrides `.mission-root` tokens when `data-theme="dark"` is set on `<html>`.
+   Linear-inspired: near-black base, subtle surface steps, soft borders (value > outline),
+   tertiary text bright enough for small UI copy (~WCAG AA on default surfaces). */
+
+[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+[data-theme='dark'] body,
+[data-theme='dark'] #root {
+  background-color: #09090b;
+}
+
+[data-theme='dark'] .mission-root {
+  /* Chrome — one step above canvas so header feels “in” the app, not pasted on */
+  --header-bg: #0c0c0e;
+  --header-pill-bg: #17171b;
+  --header-pill-text: #94949d;
+  --header-pill-active: #ebebef;
+  --header-pill-active-bg: #26262c;
+
+  /* Background ladder: smallest jump between steps = calmer, Linear-like */
+  --bg-app: #09090b;
+  --bg-main: #0f0f12;
+  --surface: #151518;
+  --surface-elevated: #1b1b1f;
+
+  /* Text: primary soft-white; secondary/meta; tertiary for captions (readable at ~11–12px) */
+  --text-primary: #ebebef;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #94949e;
+
+  /* Borders: low-contrast hairlines — separation from luminance, not heavy rules */
+  --border-color: rgba(255, 255, 255, 0.09);
+  --border-light: rgba(255, 255, 255, 0.05);
+
+  --accent-teal: #5cb39e;
+  --accent-teal-hover: #6fc4ae;
+  --accent-teal-bg: rgba(92, 179, 158, 0.12);
+
+  --status-success: #34d399;
+  --status-success-bg: rgba(52, 211, 153, 0.12);
+  --status-success-text: #6ee7b7;
+
+  --status-warning: #fbbf24;
+  --status-warning-bg: rgba(251, 191, 36, 0.12);
+  --status-warning-text: #fcd34d;
+
+  --status-danger: #f87171;
+  --status-danger-bg: rgba(248, 113, 113, 0.12);
+  --status-danger-text: #fca5a5;
+
+  --node-alert-bg: #2a2418;
+  --range-track-mute: rgba(255, 255, 255, 0.1);
+  --toggle-track-off: rgba(255, 255, 255, 0.16);
+  --shadow-soft: rgba(0, 0, 0, 0.45);
+  --shadow-medium: rgba(0, 0, 0, 0.55);
+
+  --scrollbar-track: #0f0f12;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.14);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.22);
+
+  --gv-grid-dot: rgba(255, 255, 255, 0.06);
+
+  --deploy-header-bg: #0f2419;
+  --deploy-header-border: rgba(52, 211, 153, 0.35);
+  --deploy-title: #6ee7b7;
+  --deploy-card-g1: #0f2419;
+  --deploy-card-g2: #132a1e;
+  --deploy-card-border: rgba(52, 211, 153, 0.35);
+  --deploy-card-shadow: rgba(52, 211, 153, 0.15);
+  --deploy-lead: #a7f3d0;
+  --deploy-code-bg: rgba(0, 0, 0, 0.28);
+  --deploy-code-border: rgba(52, 211, 153, 0.35);
+
+  --strip-alert-bg: #2a2312;
+  --strip-alert-border: rgba(251, 191, 36, 0.35);
+  --strip-alert-title: #fde68a;
+  --strip-alert-desc: #fcd34d;
+  --strip-alert-dot-ring: #78350f;
+  --strip-alert-cta-bg: #d97706;
+  --strip-alert-cta-hover: #f59e0b;
+
+  --strip-success-a: #0f2419;
+  --strip-success-b: #132a1e;
+  --strip-success-border: rgba(52, 211, 153, 0.35);
+  --strip-success-cta-surface: var(--surface);
+  --strip-success-cta-hover: var(--surface-elevated);
+  --strip-success-restart-bg: rgba(255, 255, 255, 0.06);
+
+  --global-window-shadow: rgba(0, 0, 0, 0.55);
+  --global-window-outline: rgba(255, 255, 255, 0.08);
+
+  --gv-gateway-bg: #1a1a1f;
+  --gv-gateway-border: rgba(255, 255, 255, 0.12);
+  --gv-gateway-sub: #a1a1aa;
+  --gv-crumb-sep: rgba(255, 255, 255, 0.14);
+  --gv-btn-secondary-text: #c4c4cc;
+  --gv-topology-sm-text: #a1a1aa;
+  --gv-topology-router-title: #ebebef;
+  --gv-topology-router-sub: #a1a1aa;
+  --gv-zoom-icon: #94949e;
+
+  --blast-warn-border: #ca8a04;
+}
+
+[data-theme='dark'] .mission-root .btn-primary {
+  color: #060708;
+}
+
+[data-theme='dark'] .mission-root .btn-primary:hover {
+  color: #060708;
+}
+
+[data-theme='dark'] .topology-us-shape {
+  fill: rgba(148, 163, 184, 0.065);
+  stroke: rgba(148, 163, 184, 0.2);
+}
+
+[data-theme='dark'] .topology-us-shape-accent {
+  stroke: rgba(92, 179, 158, 0.24);
+}
+
+[data-theme='dark'] .topology-us-tag {
+  background: rgba(21, 21, 24, 0.78);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme='dark'] .continent-map-layer {
+  opacity: 0.22;
+}
+
+[data-theme='dark'] .continent-cluster-dot {
+  stroke: rgba(15, 15, 18, 0.92);
+}
+
+[data-theme='dark'] .continent-map-hint {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .continent-map-hint-line {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .continent-map-hint-line strong {
+  color: var(--text-primary);
+}
+
